@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Changed lang to "en", removed dir="rtl" -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggested Routine - Evalyzer</title> <!-- Translated Title -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+    <style>
+        /* === Base Styles === */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #C3D5CC; /* Original Background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 40px; /* Space at bottom */
+        }
+
+        /* === Header Styling with NEW ORDER === */
+        .header {
+            background-color: #FFFFFF;
+            display: flex;
+            /* justify-content: space-between; Now handled by spacing */
+            align-items: center;
+            height: 100px; /* Adjusted height back to original standard */
+            width: 100%;
+            padding: 10px 50px; /* Adjusted padding slightly */
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+         /* 1. Login Container (Left) */
+         .header .login-container {
+             flex-shrink: 0; /* Prevent shrinking */
+             /* No margin needed on left */
+         }
+         .header .login-btn {
+             display: inline-block; /* Changed from block */
+             width: 50px;
+             height: 50px;
+             border-radius: 50%;
+             overflow: hidden;
+             transition: transform 0.3s ease-in-out;
+             padding: 0; /* Removed padding */
+         }
+         .header .login-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover;}
+         .header .login-btn:hover { transform: scale(1.1); }
+
+         /* 2. Header Links (Center - taking up available space) */
+         .header .header-links {
+             flex-grow: 1; /* Allows it to take up space */
+             display: flex;
+             justify-content: center; /* Center the links within this container */
+             align-items: center;
+             gap: 20px;
+             text-align: center; /* Center align text within links container */
+         }
+         .header .header-links a { color: black; text-decoration: none; border-radius: 15px; padding: 10px 15px; font-weight: bold; transition: 0.3s; white-space: nowrap; /* Prevent wrapping */}
+         .header .header-links a:hover { background-color: blueviolet; color: white; }
+
+        /* 3. Logo Container (Right) */
+         .header .logo {
+             flex-shrink: 0; /* Prevent shrinking */
+             margin-left: auto; /* Pushes to the right */
+             display: flex; /* Added to align */
+             align-items: center; /* Align vertically */
+         }
+        .header .logo img {
+            width: 100px;
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Removes extra space below */
+        }
+
+
+        /* Routine Container (No Changes) */
+        .routine-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 700px;
+        }
+
+        .routine-container h2 {
+             text-align: center;
+             color: #333;
+             margin-bottom: 25px;
+             border-bottom: 2px solid blueviolet;
+             padding-bottom: 10px;
+         }
+
+        /* Product Card Style (No Changes) */
+        .product-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .product-card img { width: 60px; height: 60px; object-fit: contain; border-radius: 5px; flex-shrink: 0; }
+        .product-info { flex-grow: 1; text-align: left; } /* Changed text align to left for english */
+        .product-info h4 { margin: 0 0 5px 0; font-size: 1.1em; }
+        .product-info p { margin: 0 0 5px 0; font-size: 0.95em; color: #555; }
+        .product-stock { font-size: 0.9em; color: red; font-weight: bold; margin-top: 5px;}
+
+
+        /* QR Code Section Styles (No Changes) */
+         .qr-code-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+         .qr-code-section h3 {
+             margin-bottom: 15px;
+             color: #333;
+         }
+        #qrcode {
+            width: 128px;
+            height: 128px;
+            margin: 15px auto;
+            border: 5px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+         #qrButton {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            background-color: #2c3e50;
+             color: white;
+         }
+         #qrButton:hover { background-color: #34495e; }
+         #qrButton:disabled { background-color: #cccccc; cursor: not-allowed; color: #666;}
+
+         /* Message for no routine (No Changes) */
+         .no-routine-message {
+             text-align: center;
+             color: #777;
+             font-style: italic;
+             padding: 20px;
+         }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header with NEW order: Login -> Links -> Logo -->
+     <div class="header">
+        <!-- 1. Login Button (Left) -->
+      
+        <div class="logo">
+            <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/122017/thumbnail_1.png?Ju2vTP1XBYmtSM3qPAKgO_kbbI.IuPyX&itok=lP4vWgEP" alt="Eva Logo">
+         </div>
+        <!-- 2. Header Links (Center) -->
+        <div class="header-links">
+            <a href="index.html">About Eva</a>
+            <a href="challange.html">Our Challenge</a> <!-- Corrected spelling -->
+            <a href="Analyze-my-Skin.html">Analyze My Skin</a>
+            <a href="sustainability.html">Sustainability</a>
+             <!-- Removed Arabic-specific links -->
+        </div>
+
+         <!-- 3. Logo (Right) -->
+         
+         <div class="login-container">
+            <a href="login.html" class="login-btn" title="Login/Profile"> <!-- Added title -->
+                <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="User Profile">
+            </a>
+        </div>
+    </div>
+
+
+    <div class="routine-container">
+        <h2>Suggested Routine from Eva</h2> <!-- Translated -->
+
+        <div id="recommendationsList">
+            <!-- Product cards will be loaded here -->
+            <div class="no-routine-message">Loading routine...</div> <!-- Translated -->
+        </div>
+
+        <div class="qr-code-section">
+            <h3>Save Your Suggested Routine</h3> <!-- Translated -->
+            <button id="qrButton" disabled>Generate QR Code for Routine</button> <!-- Translated -->
+            <div id="qrcode"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- DOM Elements ---
+        const recommendationsList = document.getElementById('recommendationsList');
+        const qrButton = document.getElementById('qrButton');
+        const qrcodeContainer = document.getElementById('qrcode');
+        let generatedQRCode = null;
+        let currentRecommendedProducts = []; // Store retrieved products
+
+        // --- Function to display recommendations ---
+        function displayRecommendations(products) {
+            recommendationsList.innerHTML = ''; // Clear loading message or previous content
+            if (!products || products.length === 0) {
+                recommendationsList.innerHTML = '<p class="no-routine-message">No suggested routine found.</p>'; // Translated
+                qrButton.disabled = true; // Disable QR if no products
+                return;
+            }
+
+            products.forEach(product => {
+                if (!product) return; // Skip if null product object exists
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+
+                const img = document.createElement('img');
+                 img.src = product.image || 'https://via.placeholder.com/60/eee/999?text=NoImage'; // Fallback image
+                img.alt = product.name;
+
+                const info = document.createElement('div');
+                info.className = 'product-info';
+
+                const name = document.createElement('h4');
+                name.textContent = product.name; // Assumes product names are already in desired language (English?)
+
+                const purpose = document.createElement('p');
+                 purpose.textContent = `Purpose: ${product.purpose || 'General Use'}`; // Use 'purpose' if available, added fallback, Translated
+
+                info.appendChild(name);
+                info.appendChild(purpose);
+
+                // Display stock status
+                if (product.availableOnline === false) { // Check explicitly for false
+                    const stockInfo = document.createElement('p');
+                    stockInfo.className = 'product-stock';
+                    stockInfo.textContent = 'Not available online - check local stores.'; // Translated
+                    info.appendChild(stockInfo);
+                }
+
+                card.appendChild(img);
+                card.appendChild(info);
+                recommendationsList.appendChild(card);
+            });
+             qrButton.disabled = false; // Enable QR button once products are displayed
+        }
+
+         // --- Function to setup QR Button ---
+        function setupQRCodeGeneration() {
+            if (currentRecommendedProducts.length > 0) {
+                 qrButton.disabled = false; // Ensure it's enabled if products exist
+                 qrButton.textContent = 'Generate QR Code for Routine'; // Reset button text
+                qrButton.onclick = () => {
+                     generateQRCode(currentRecommendedProducts);
+                 };
+             } else {
+                 qrButton.disabled = true;
+                 qrButton.textContent = 'Generate QR Code for Routine'; // Ensure default text
+             }
+         }
+
+
+        // --- Function to generate QR Code ---
+         function generateQRCode(products) {
+             if (!products || products.length === 0) return;
+
+             let qrText = "Suggested Eva Routine:\n"; // Translated title for QR content
+             products.forEach(p => {
+                  if(p) { // Ensure product exists
+                    qrText += `- ${p.name}${p.availableOnline === false ? ' (check stores)' : ''}\n`; // Slightly shorter text
+                  }
+              });
+
+             qrcodeContainer.innerHTML = ''; // Clear previous QR/error
+
+             try {
+                 generatedQRCode = new QRCode(qrcodeContainer, {
+                     text: qrText,
+                     width: 128,
+                     height: 128,
+                     colorDark : "#000000",
+                     colorLight : "#ffffff",
+                     correctLevel : QRCode.CorrectLevel.H
+                 });
+                 qrButton.disabled = true;
+                 qrButton.textContent = 'QR Code Generated'; // Translated success state
+              } catch (error) {
+                 console.error("Error generating QR Code:", error);
+                 qrcodeContainer.innerHTML = '<p style="font-size: 0.8em; color: red;">Error generating QR.</p>'; // Translated error
+              }
+         }
+
+
+        // --- Load recommendations on page load ---
+        window.onload = function() {
+            const storedRoutineString = sessionStorage.getItem('recommendedRoutine');
+             if (storedRoutineString) {
+                 try {
+                     currentRecommendedProducts = JSON.parse(storedRoutineString);
+                     displayRecommendations(currentRecommendedProducts);
+                     setupQRCodeGeneration(); // Setup the button after displaying
+                 } catch (error) {
+                     console.error("Error parsing stored routine:", error);
+                     recommendationsList.innerHTML = '<p class="no-routine-message">Error loading routine.</p>'; // Translated Error
+                      qrButton.disabled = true;
+                 }
+             } else {
+                 recommendationsList.innerHTML = '<p class="no-routine-message">No routine found. Please perform analysis first.</p>'; // Translated error
+                 qrButton.disabled = true;
+             }
+         };
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze My Skin</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #C3D5CC;
+        }
+
+        /* Navbar */
+        
+      /* تصميم الـ Navbar العلوي */
+      .header {
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100px;
+            padding: 10px 50px;
+        }
+
+        .logo img {
+            width: 100px;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-links a {
+            color: black;
+            text-decoration: none;
+            border-radius: 15px;
+            padding: 10px 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .header-links a:hover {
+            background-color: blueviolet;
+            color: white;
+        }
+
+        /* زر تسجيل الدخول */
+        .login-btn {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .login-btn img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.1);
+        }
+    
+        /* النافذة المنبثقة */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-decoration: none;
+
+        }
+
+        .popup {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;            text-decoration: none;
+
+        }
+
+        .popup h2 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .popup .instructions {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .instruction-item {
+            display: flex;
+            align-items: center;
+            background-color: #F3F3F3;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .instruction-item img {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+        }
+
+        .get-started-btn {
+            background-color: #A68BDA;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-style: none;
+            transition: 0.3s;
+            text-decoration: none;
+
+        }
+
+        .get-started-btn:hover {
+            background-color: #7a4bb7;
+        }
+
+        /* الصفحة الفعلية */
+        .content {
+            display: none;
+            padding: 100px 50px;
+        }
+
+        /* تعديل لضمان أن المحتوى لا يكون مختبئًا تحت الـ Navbar */
+        .main-container {
+            padding-top: 80px;
+        } .logo img {
+            width: 100px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+   <!-- Navbar العلوي -->
+   <div class="header">
+    <div class="logo">
+        <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/122017/thumbnail_1.png?Ju2vTP1XBYmtSM3qPAKgO_kbbI.IuPyX&itok=lP4vWgEP" alt="Logo">
+    </div>
+
+    <div class="header-links">
+        <a href="About.html">About Eva</a>
+        <a href="Enalyze-my-skin.html">Analyze My Skin</a>
+        <a href="challange.html">Our Challange</a>
+        <a href="Sustainability.html">Sustainability</a>
+    </div>
+
+
+    <div class="login-container">
+        <a href="login.html" class="login-btn">
+            <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="User Profile">
+        </a>
+    </div>
+</div>
+
+        <!-- النافذة المنبثقة -->
+        <div class="overlay" id="overlay">
+            <div class="popup">
+                <h2>Get Ready to Start Skin Analysis</h2>
+                <p><strong>INSTRUCTIONS</strong></p>
+
+                <div class="instructions">
+                    <div class="instruction-item">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4033/4033918.png" alt="No Makeup">
+                        Testing with no-makeup will get more accurate results.                    </div>
+                    <div class="instruction-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV7JUtmCdvraTFmx7QsD0n6SGUOVLRSn09yg&s" alt="Lighting">
+                        Make sure that you're in a well-lighted environment.                    </div>
+                    <div class="instruction-item">
+                        <img src="data:image/png;base64,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" alt="Glasses">
+                        Take off your glasses and ensure there's no bangs on your forehead.                    </div>
+                    <div class="instruction-item">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwRIdXnX-LfP7NyfWiSJAgzIyt6Qi0__wstA&s" alt="Camera">
+                        Looking straight to the camera and keep your face in the circle.                    </div>
+                </div> 
+                       <a href="Analyze-my-Skin.html" class="get-started-btn">Get Started</a>
+            </div>
+        </div>
+
+       
+    </div>
+
+ 
+</body>
+</html>
