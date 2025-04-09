@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Assuming English interface based on button text -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze my Skin</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+    <!-- TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+
+    <style>
+        /* === CSS (Keep your existing styles - no changes needed here) === */
+        body { margin: 0; font-family: 'Roboto', sans-serif; background-color: #C3D5CC; display: flex; flex-direction: column; align-items: center; }
+        .header { background-color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; height: 100px; width: 100%; padding: 10px 50px; box-sizing: border-box;}
+        .logo img { width: 100px;}
+        .header-links { display: flex; align-items: center; gap: 20px; }
+        .header-links a { color: black; text-decoration: none; border-radius: 15px; padding: 10px 15px; font-weight: bold; transition: 0.3s; }
+        .header-links a:hover { background-color: blueviolet; color: white; }
+        .login-btn { display: inline-block; width: 50px; height: 50px; border-radius: 50%; overflow: hidden; transition: transform 0.3s ease-in-out; padding: 10px 50px;}
+        .login-btn img { width: 100%; height: 100%; border-radius: 50%;}
+        .login-btn:hover { transform: scale(1.1); }
+        .container { display: flex; align-items: center; justify-content: center; gap: 50px; margin-top: 50px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); }
+        .text-section { max-width: 300px; }
+        .title { font-size: 24px; font-weight: bold; }
+        .description { font-size: 18px; margin: 10px 0; }
+        .steps { text-align: left; font-size: 16px; line-height: 1.6; }
+        .steps ul { margin: 0; padding-left: 20px; }
+        .camera-section { display: flex; flex-direction: column; align-items: center; }
+        .camera-frame { width: 250px; height: 250px; background: #E0E0E0; border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        video { width: 100%; height: 100%; object-fit: cover; }
+        .buttons { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+        .btn { padding: 12px 20px; font-size: 16px; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background-color: blueviolet; color: white; }
+        .btn-primary:hover { background-color: #7a4bb7; }
+        .btn-secondary { background-color: white; color: black; border: 2px solid black; text-decoration: none; /* Added for link styling */ text-align: center; /* Added for link styling */ }
+        .btn-secondary:hover { background-color: black; color: white; }
+        .face-guide { position: absolute; width: 150px; height: 150px; border: 3px dashed red; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; opacity: 0.7; }
+        .right-section { display: flex; flex-direction: column; align-items: center; }
+        .checkbox-container { display: flex; align-items: center; justify-content: center; margin-top: 15px; }
+        .checkbox-container input { margin-right: 10px; }
+        #canvasElement { display: none; }
+        #capturedImage { display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+        .btn:disabled { background-color: #cccccc; color: #666666; cursor: not-allowed; border-color: #cccccc;}
+        .btn:disabled:hover { background-color: #cccccc; color: #666666; }
+         #userInfoMessage { /* Added style for user info message */
+             font-size: 0.9em;
+             color: green;
+             text-align: center;
+             margin-top: 5px;
+             display: none; /* Hidden initially */
+         }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar (Keep your original code) -->
+   <div class="header">
+    <div class="logo">
+        <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/122017/thumbnail_1.png?Ju2vTP1XBYmtSM3qPAKgO_kbbI.IuPyX&itok=lP4vWgEP" alt="Logo">
+    </div>
+
+    <div class="header-links">
+         <!-- Make sure links are correct -->
+         <a href="About.html">About Eva</a>
+         <a href="Analyze-my-Skin.html">Analyze My Skin</a> <!-- Current page - maybe disable or highlight? -->
+         <a href="challange.html">Our Challenge</a>
+         <a href="Sustainability.html">Sustainability</a>
+    </div>
+
+
+    <div class="login-container">
+        <a href="login.html" class="login-btn">
+            <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="User Profile">
+        </a>
+    </div>
+</div>
+
+
+    <!-- Content -->
+    <div class="container">
+        <!-- Left Section (Text) -->
+        <div class="text-section">
+            <div class="title">SKIN ANALYSIS</div>
+            <p class="description">
+                Our skin analysis tool uses AI to accurately scan and analyze skin concerns and help find the skincare routine that fits your unique skin type, using your photo and provided info. <!-- Added mention of provided info -->
+            </p>
+            <div class="steps">
+                 <ul>
+                     <li><strong>Step 1:</strong> Provide your information (if you haven't already).</li> <!-- Modified step 1 -->
+                    <li><strong>Step 2:</strong> Allow camera access and position your face.</li>
+                    <li><strong>Step 3:</strong> Capture your photo.</li>
+                    <li><strong>Step 4:</strong> Analyze to get your personalized skin report & Eva routine.</li> <!-- Modified step -->
+                 </ul>
+            </div>
+        </div>
+
+        <!-- Middle Section (Camera) -->
+        <div class="camera-section">
+            <div class="camera-frame">
+                <video id="videoElement" autoplay></video>
+                <div class="face-guide"></div>
+                <canvas id="canvasElement"></canvas>
+                <img id="capturedImage" alt="Captured Image">
+            </div>
+            <div class="buttons">
+                <button id="takePhotoButton" class="btn btn-primary">Open Camera</button>
+                <button id="analyzeButton" class="btn btn-primary" disabled>Analyze my Skin</button>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <!-- Link to Fill Info Page -->
+            <a href="fill-your-info.html" class="btn btn-secondary">My Info</a> <!-- Changed text maybe -->
+             <!-- Message to confirm if user info is loaded -->
+             <div id="userInfoMessage">User info loaded.</div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="termsCheckbox">
+                <label for="termsCheckbox">I agree for terms of Policy</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Get DOM Elements (Same as before) ---
+        const video = document.getElementById('videoElement');
+        const canvas = document.getElementById('canvasElement');
+        const capturedImageDisplay = document.getElementById('capturedImage');
+        const takePhotoButton = document.getElementById('takePhotoButton');
+        const analyzeButton = document.getElementById('analyzeButton');
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        const userInfoMessage = document.getElementById('userInfoMessage'); // Get the message div
+
+        // --- State Variables (Same as before) ---
+        let stream = null;
+        let photoTaken = false;
+        let capturedImageDataURL = null;
+
+        // --- NEW: User Info Variable ---
+        let userInfo = null; // To store retrieved user data
+
+        // === NEW: Function to retrieve User Info ===
+        function loadUserInfo() {
+             const storedUserInfoString = sessionStorage.getItem('userInfo');
+             if (storedUserInfoString) {
+                 try {
+                     userInfo = JSON.parse(storedUserInfoString);
+                     console.log("User Info Loaded on Camera Page:", userInfo); // Log for confirmation
+                     // Display confirmation message to the user
+                     if (userInfoMessage) {
+                         userInfoMessage.style.display = 'block';
+                     }
+                     // You could potentially personalize something here based on userInfo if needed
+                 } catch (error) {
+                     console.error("Error parsing user info:", error);
+                     if (userInfoMessage) {
+                          userInfoMessage.textContent = "Could not load user info.";
+                          userInfoMessage.style.color = "orange";
+                          userInfoMessage.style.display = 'block';
+                     }
+                 }
+             } else {
+                 console.log("No user info found in sessionStorage.");
+                 if (userInfoMessage) {
+                     userInfoMessage.textContent = "Tip: Fill 'My Info' first!";
+                     userInfoMessage.style.color = "blue"; // Use a different color for tips
+                     userInfoMessage.style.display = 'block';
+                 }
+             }
+         }
+
+        // --- Camera Functions (startCamera, capturePhoto - Same as before) ---
+        async function startCamera() {
+            try {
+                if (stream) { stream.getTracks().forEach(track => track.stop()); }
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                video.style.display = 'block';
+                capturedImageDisplay.style.display = 'none';
+                photoTaken = false;
+                capturedImageDataURL = null;
+                sessionStorage.removeItem('capturedImage'); // Clear only image, not userInfo
+                updateAnalyzeButtonState();
+                takePhotoButton.textContent = 'Capture';
+                takePhotoButton.onclick = capturePhoto;
+            } catch (error) {
+                console.error("Error accessing camera:", error);
+                alert("Can't Access Camera.");
+                takePhotoButton.textContent = 'Open Camera';
+                takePhotoButton.onclick = startCamera;
+            }
+        }
+
+        function capturePhoto() {
+            if (!stream) return;
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            capturedImageDataURL = canvas.toDataURL('image/jpeg', 0.9);
+            console.log("Photo captured!");
+            sessionStorage.setItem('capturedImage', capturedImageDataURL); // Store image data
+            photoTaken = true;
+            updateAnalyzeButtonState();
+            stream.getTracks().forEach(track => track.stop());
+            stream = null;
+            video.style.display = 'none';
+            capturedImageDisplay.src = capturedImageDataURL;
+            capturedImageDisplay.style.display = 'block';
+            takePhotoButton.textContent = 'Capture Again?';
+            takePhotoButton.onclick = startCamera;
+        }
+
+        // --- Button State Update (Same as before) ---
+        function updateAnalyzeButtonState() {
+            analyzeButton.disabled = !(photoTaken && termsCheckbox.checked);
+        }
+
+        // --- Navigation to Analysis (Same as before) ---
+        // This function doesn't need modification, as analysis.html
+        // will retrieve BOTH 'capturedImage' AND 'userInfo' from sessionStorage itself.
+        function goToAnalysis() {
+            if (!analyzeButton.disabled) {
+                if (sessionStorage.getItem('capturedImage')) {
+                    // We assume 'userInfo' might also be in sessionStorage by now
+                    window.location.href = 'analysis.html';
+                } else {
+                    alert("Capture First!");
+                }
+            }
+        }
+
+        // --- Initial Setup ---
+        takePhotoButton.onclick = startCamera;
+        analyzeButton.onclick = goToAnalysis;
+        termsCheckbox.addEventListener('change', updateAnalyzeButtonState);
+
+        // === NEW: Call loadUserInfo on page load ===
+        window.onload = loadUserInfo; // Retrieve user info when the page loads
+
+        // Ensure button state is correct initially
+        updateAnalyzeButtonState();
+
+    </script>
+
+</body>
+</html>

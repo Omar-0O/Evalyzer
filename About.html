@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Eva Cosmetics - Evalyzer</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* === Base Styles (Consistent with other pages) === */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #C3D5CC; /* Original Background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        /* === Header Styles (Assume EXACTLY same as other pages) === */
+        .header {
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            width: 100%;
+            margin-bottom: 46px;
+            padding: 10px 0px;
+        }
+        /* (Paste the rest of your .header, .logo, .header-links, .login-btn CSS here) */
+        /* Example subset */
+        .header .logo img { width: 100px; padding: 10px 50px;}
+        .header .header-links { display: flex; align-items: center; gap: 20px; }
+        .header .header-links a { color: black; text-decoration: none; border-radius: 15px; padding: 10px 15px; font-weight: bold; transition: 0.3s; }
+        .header .header-links a:hover { background-color: blueviolet; color: white; }
+        /* Style for highlighting the active link */
+        .header .header-links a.active-link { background-color: #f0eafa; color: blueviolet; }
+
+        .header .login-btn { display: inline-block; width: 50px; height: 50px; border-radius: 50%; overflow: hidden; transition: transform 0.3s ease-in-out; padding: 10px 50px; }
+        .header .login-btn img { width: 100%; height: 100%; border-radius: 50%; }
+        .header .login-btn:hover { transform: scale(1.1); }
+
+
+        /* === Content Container Styling (Consistent) === */
+        .content-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .content-container h2 {
+             text-align: center;
+             color: #333;
+             margin-bottom: 30px;
+             padding-bottom: 15px;
+             border-bottom: 2px solid blueviolet; /* Highlight color */
+             font-size: 1.8em;
+        }
+
+        .content-section {
+            margin-bottom: 30px;
+        }
+
+        .content-section h3 {
+             font-size: 1.4em;
+             color: #333;
+             margin-bottom: 15px;
+             border-left: 4px solid blueviolet; /* Left border accent for LTR */
+             padding-left: 10px;
+        }
+
+        .content-section p {
+            font-size: 1.05em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .content-section ul {
+            list-style: disc;
+            margin-left: 20px; /* Indentation for LTR lists */
+            padding-left: 0;
+        }
+
+        .content-section li {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+             color: #555;
+        }
+
+        .content-section strong {
+            font-weight: bold;
+             color: #333;
+        }
+
+        /* Image styling */
+        .content-image {
+            display: block;
+            max-width: 100%; /* Allow larger images */
+            height: auto;
+            margin: 20px 0; /* Space around image */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Quote or emphasis style */
+        .quote {
+            border-left: 5px solid #eee;
+            padding-left: 20px;
+            margin: 25px 0;
+            font-style: italic;
+            color: #777;
+            font-size: 1.1em;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Header (Paste your EXACT header HTML code here) -->
+    <div class="header">
+        <div class="logo"> <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/122017/thumbnail_1.png?Ju2vTP1XBYmtSM3qPAKgO_kbbI.IuPyX&itok=lP4vWgEP" alt="Logo"> </div>
+        <div class="header-links">
+            <a href="About.html">About Eva</a>
+            <a href="Enalyze-my-skin.html">Analyze My Skin</a>
+            <a href="challange.html">Our Challange</a>
+            <a href="Sustainability.html">Sustainability</a>
+        </div>
+
+        <div class="login-container"> <a href="login.html" class="login-btn"> <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="User Profile"> </a> </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content-container">
+        <h2>About Eva Cosmetics</h2>
+
+        <!-- Section 1: Introduction/Welcome -->
+        <div class="content-section">
+            <!-- You can add a prominent image here if desired -->
+            <img src="images/EvaBanner.png"Attractive banner image for Eva Cosmetics" class="content-image">
+            <p>Welcome to Eva Cosmetics, where science meets nature to bring you effective and accessible skincare and beauty solutions. We believe everyone deserves to feel confident and beautiful in their own skin.</p>
+            <p>For years [mention timeframe or founding year if known, e.g., "Since 19XX," or "For over two decades"], Eva has been dedicated to developing innovative products formulated with high-quality ingredients, tailored to the specific needs of our diverse customer base.</p>
+        </div>
+
+        <!-- Section 2: Our Mission & Vision -->
+        <div class="content-section">
+            <h3>Our Mission</h3>
+            <p>Our mission is to empower individuals by providing trusted, effective, and affordable beauty products that enhance natural beauty and promote skin health. We strive to combine the best of scientific research with the power of natural ingredients.</p>
+            <h3>Our Vision</h3>
+            <p>We envision a world where high-quality skincare is accessible to all, contributing to individual well-being and confidence, while respecting our planet and its resources.</p>
+        </div>
+
+         <!-- Section 3: Our Values -->
+        <div class="content-section">
+             <h3>Our Core Values</h3>
+            <ul>
+                 <li><strong>Efficacy:</strong> We create products that deliver visible results, backed by research and careful formulation.</li>
+                 <li><strong>Quality:</strong> We use carefully selected ingredients and maintain high standards throughout our production process.</li>
+                 <li><strong>Accessibility:</strong> We believe effective beauty care should be within reach for everyone.</li>
+                 <li><strong>Trust:</strong> We build relationships with our customers based on transparency and reliability.</li>
+                 <li><strong>Innovation:</strong> We continuously explore new ingredients and technologies to improve our offerings.</li>
+                 <li><strong>Responsibility:</strong> We are committed to ethical practices and striving for greater sustainability (link back to the sustainability page could be relevant here).</li>
+             </ul>
+        </div>
+
+         <!-- Section 4: What Makes Eva Different (Example - Needs tailoring) -->
+         <div class="content-section">
+            <h3>The Eva Difference</h3>
+             <p>What sets Eva apart? Perhaps it's our deep understanding of local skin types and environmental factors [if applicable], or our unique blend of traditional knowledge and modern science. [Add specific strengths of the Eva brand here - e.g., focus on specific natural ingredients like Aloe Vera, Glycerin, etc., or specific product lines].</p>
+            <div class="quote">
+                 "Beauty is not about perfection, it's about feeling comfortable and confident in your skin. That's the feeling we aim to inspire with every Eva product." <!-- Example quote -->
+             </div>
+            <p>Our dedication extends beyond products. With tools like the <strong style="color:blueviolet;">Evalyzer app</strong>, we aim to provide personalized guidance, making it easier than ever to discover the perfect Eva routine for you.</p>
+             <img src="images/Various-Eva-products.jpg" alt="Showcase of various Eva products" class="content-image">
+         </div>
+
+
+        <!-- Section 5: Call to Action / Explore More -->
+        <div class="content-section" style="text-align: center;"> <!-- Centered CTA -->
+            <h3>Join the Eva Family</h3>
+            <p>Explore our range of products, discover your personalized routine with the Evalyzer app, and start your journey to healthier, more radiant skin today!</p>
+            <!-- Optional buttons to product page or app download -->
+             <!--
+             <a href="[Link to Products Page]" class="btn btn-primary" style="display: inline-block; margin: 5px; background-color: blueviolet; color: white; text-decoration:none; padding: 10px 20px; border-radius: 8px;">Explore Products</a>
+             <a href="[Link to App Download/Analyze Page]" class="btn" style="display: inline-block; margin: 5px; background-color: #eee; color: #333; text-decoration:none; padding: 10px 20px; border-radius: 8px;">Try Evalyzer</a>
+             -->
+        </div>
+
+    </div>
+
+    <!-- (Add Footer Here if you have one) -->
+
+    <script>
+        // No specific JavaScript needed for this static page.
+    </script>
+
+</body>
+</html>
