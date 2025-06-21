@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Capstone</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #C3D5CC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        .register-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .register-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .register-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: blueviolet;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .register-container button:hover {
+            background-color: #5a2d82;
+        }
+
+        .register-container a {
+            display: block;
+            margin-top: 15px;
+            color: blueviolet;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .register-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <input type="password" placeholder="Confirm Password" required>
+
+            <button type="button" onclick="validateAndRegister()">Register</button>
+        </form>
+        <a href="login.html">Already have an account? <strong>Login</strong></a>
+    </div>
+
+    <script>
+        function validateAndRegister() {
+            // Get form values
+            const email = document.querySelector('input[type="email"]').value.trim();
+            const password = document.querySelectorAll('input[type="password"]')[0].value;
+            const confirmPassword = document.querySelectorAll('input[type="password"]')[1].value;
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address");
+                return;
+            }
+
+            // Validate password
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters");
+                return;
+            }
+
+            // Validate password match
+            if (password !== confirmPassword) {
+                alert("Passwords don't match");
+                return;
+            }
+
+            // If all validations pass, redirect to index.html
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

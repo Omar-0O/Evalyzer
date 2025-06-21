@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Capstone</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #C3D5CC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: blueviolet;
+            box-shadow: 0px 0px 8px rgba(138, 43, 226, 0.5);
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: blueviolet;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .login-container button:hover {
+            background-color: #5a2d82;
+        }
+
+        .login-container a {
+            display: block;
+            margin-top: 15px;
+            color: blueviolet;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-container a:hover {
+            text-decoration: underline;
+            color: #5a2d82;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="return false;">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <div id="emailError" class="error-message">Please enter a valid email address</div>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <div id="passwordError" class="error-message">Password must be at least 8 characters</div>
+            <button type="submit">Login</button>
+        </form>
+        <a href="forgot-password.html">Forgot password?</a>
+        <a href="Register.html">Create a new account</a>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Reset error messages
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+
+            // Get form values
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                return;
+            }
+
+            // Validate password
+            if (password.length < 8) {
+                document.getElementById('passwordError').style.display = 'block';
+                return;
+            }
+
+            // If validation passes, redirect to index.html
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

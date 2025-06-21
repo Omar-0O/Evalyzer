@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<!-- Removed dir="ltr" as it's default, kept lang="en" based on button text -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skin Analysis Summary - Evalyzer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+
+  <!-- External Libraries -->
+  <!-- QRCode.js for QR Code generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- jsPDF for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #C3D5CC;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 40px; /* Added padding */
+    }
+
+    .header {
+      background-color: #FFFFFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100px; /* Corrected height */
+      width: 100%;
+      padding: 10px 50px;
+      box-sizing: border-box;
+    }
+    .header .logo img { width: 100px; padding: 0; /* Removed padding */ } /* Adjusted logo padding */
+    .header .header-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .header .header-links a {
+      color: black;
+      text-decoration: none;
+      border-radius: 15px;
+      padding: 10px 15px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .header .header-links a:hover {
+      background-color: blueviolet;
+      color: white;
+    }
+    .header .login-container { /* Wrap login btn in a container if not already */
+         padding: 0 10px 0 50px; /* Adjust padding around login */
+    }
+    .header .login-btn {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
+      padding: 0; /* Removed padding */
+    }
+    .header .login-btn img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+       object-fit: cover; /* Ensure image covers */
+    }
+    .header .login-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .summary-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px; /* Adjusted gap */
+      margin-top: 30px; /* Adjusted margin */
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    #loadingMessage {
+      font-weight: bold;
+      color: #555;
+      padding: 20px;
+      font-size: 1.1em;
+    }
+
+    #summaryContent {
+      display: none; /* Start hidden */
+      width: 100%;
+       display: flex;
+       flex-direction: column;
+       align-items: center; /* Center content within */
+    }
+
+    .image-display-area {
+      margin-bottom: 20px;
+      border: 1px solid #eee;
+      padding: 5px;
+      border-radius: 10px;
+      display: inline-block; /* Keeps it tight to the image */
+    }
+    #displayedImage {
+      max-width: 250px;
+      height: auto;
+      border-radius: 8px;
+      display: block; /* Ensure image is block for margin auto */
+    }
+
+    .results-text {
+      text-align: left; /* Keep results aligned left */
+      width: 90%; /* Limit width for better reading */
+      max-width: 400px; /* Max width */
+      margin-bottom: 25px;
+      line-height: 1.8;
+      font-size: 1.1em;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    .results-text p { margin: 8px 0; } /* Increased spacing */
+    .results-text strong {
+      font-weight: bold;
+      color: blueviolet;
+      display: inline-block;
+      min-width: 110px; /* Adjusted width */
+      margin-right: 10px; /* Space after label */
+    }
+
+    .btn {
+      padding: 10px 18px; /* Slightly adjusted padding */
+      font-size: 15px; /* Slightly smaller font */
+      font-weight: bold;
+      border: none;
+      border-radius: 8px; /* Adjusted radius */
+      cursor: pointer;
+      transition: 0.3s;
+      /* width: 60%; - Removed fixed width */
+      /* max-width: 250px; - Removed max width */
+      margin: 5px; /* Add margin around buttons */
+    }
+
+    .btn-primary {
+      background-color: blueviolet;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #7a4bb7;
+    }
+
+     /* NEW: Container for buttons */
+     .button-group {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping on small screens */
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        width: 100%;
+     }
+
+     /* NEW: Container and style for QR Code */
+     #qrcode-display {
+         margin-top: 20px;
+         margin-bottom: 15px;
+         padding: 10px; /* Add padding around QR */
+         background-color: #f8f8f8; /* Slight background */
+         border: 1px solid #eee;
+         border-radius: 8px;
+         display: inline-block; /* Fit the content */
+         line-height: 0; /* Prevent extra space below canvas */
+     }
+     #qrcode-display canvas { /* Target the canvas generated by the library */
+        display: block; /* Remove extra space */
+     }
+     #qrcode-display p { /* Style for potential error message */
+        font-size: 0.9em; color: red; margin: 5px;
+     }
+
+
+  </style>
+</head>
+<body>
+  <!-- Header: Assume structure is correct, logo/links adjusted if needed -->
+  <div class="header">
+    <div class="logo">
+      <!-- Make sure image path is correct -->
+      <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/122017/thumbnail_1.png?Ju2vTP1XBYmtSM3qPAKgO_kbbI.IuPyX&itok=lP4vWgEP" alt="Logo">
+    </div>
+    <div class="header-links">
+      <a href="About.html">About Eva</a>
+      <a href="Analyze-my-Skin.html">Analyze My Skin</a>
+      <a href="challange.html">Our Challenge</a> <!-- Corrected spelling -->
+      <a href="Sustainability.html">Sustainability</a>
+       <!-- Add other links as needed -->
+    </div>
+    <div class="login-container">
+      <a href="login.html" class="login-btn">
+        <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="User Profile">
+      </a>
+    </div>
+  </div>
+
+  <div class="summary-container">
+    <h2>Analysis Summary</h2> <!-- Changed title -->
+    <div id="loadingMessage">Loading Analysis...</div>
+
+    <!-- This content appears after loading -->
+    <div id="summaryContent">
+
+      <!-- Image Area -->
+      <div class="image-display-area">
+        <img id="displayedImage" src="#" alt="Captured Skin Image"> <!-- Improved alt text -->
+      </div>
+
+      <!-- Results Text Area -->
+      <div class="results-text">
+        <p><strong>Date:</strong> <span id="analysisDate"></span></p>
+        <p><strong>Skin Type:</strong> <span id="skinType"></span></p>
+        <p><strong>Est. Skin Age:</strong> <span id="skinAge"></span></p> <!-- Added Est. -->
+        <p><strong>Overall Score:</strong> <span id="skinScore"></span></p> <!-- Changed Label -->
+      </div>
+
+      <!-- Button to Routine Page -->
+      <button id="viewRoutineBtn" class="btn btn-primary">View Suggested Routine</button>
+
+       <!-- QR Code Display Area -->
+       <div id="qrcode-display">
+           <!-- QR Code will be generated here by JavaScript -->
+           <p style="font-size: 0.8em; color:#888;">Loading QR Code...</p>
+       </div>
+
+      <!-- Download Buttons Group -->
+       <div class="button-group">
+         <button onclick="downloadQRAsPDF()" class="btn btn-primary">Download QR as PDF</button>
+         <button onclick="downloadReportAsPDF()" class="btn btn-primary">Download Report as PDF</button>
+       </div>
+
+    </div> <!-- End of summaryContent -->
+  </div> <!-- End of summary-container -->
+
+  <script>
+    // --- Product Data (Keep as is or refine) ---
+    const evaProducts = [
+      { id: 1, name: "Eva Aloe Vera Moisturizing Cream", fits: ["Dry", "Normal"], purpose:"Hydration" }, // Added purpose example
+      { id: 2, name: "Eva Cleanser for Oily Skin", fits: ["Oily", "Combination"], purpose:"Cleansing" },
+      { id: 3, name: "Eva Vitamin C Serum for Radiance", fits: ["All Types"], purpose:"Brightening" },
+      { id: 4, name: "Eva Renewing Night Cream", fits: ["Normal", "Dry", "Aging"], purpose:"Anti-Aging" },
+    ];
+
+    // --- DOM Element References ---
+    const loadingMessage = document.getElementById('loadingMessage');
+    const summaryContent = document.getElementById('summaryContent');
+    const displayedImage = document.getElementById('displayedImage');
+    const analysisDateEl = document.getElementById('analysisDate');
+    const skinTypeEl = document.getElementById('skinType');
+    const skinAgeEl = document.getElementById('skinAge');
+    const skinScoreEl = document.getElementById('skinScore');
+    const viewRoutineBtn = document.getElementById('viewRoutineBtn');
+    const qrcodeDisplay = document.getElementById('qrcode-display'); // Get QR display div
+
+    // --- Recommendation Logic (Keep as is or refine) ---
+    function generateRecommendations(results) {
+      let recommendations = [];
+      if (results.dryness !== "None" || results.skinType === "Dry") {
+        recommendations.push(evaProducts.find(p => p.id === 1));
+      }
+      if (["Oily", "Combination"].includes(results.skinType) || results.acne !== "Low") {
+        recommendations.push(evaProducts.find(p => p.id === 2));
+      }
+      if (["Poor", "Good"].includes(results.radiance)) {
+        recommendations.push(evaProducts.find(p => p.id === 3));
+      }
+      recommendations.push(evaProducts.find(p => p.id === 4)); // General recommendation
+      return [...new Set(recommendations.filter(Boolean))]; // Filter out nulls/undefined and ensure unique
+    }
+
+    // --- Initial Load Logic ---
+    window.onload = function () {
+      // Get Image
+      const imageDataURL = sessionStorage.getItem('capturedImage');
+      if (!imageDataURL) {
+        loadingMessage.textContent = "Error: No image data found. Please analyze again."; // More specific error
+        loadingMessage.style.color = "red";
+        return;
+      }
+      displayedImage.src = imageDataURL;
+
+       // Retrieve User Info (if available)
+       const storedUserInfoString = sessionStorage.getItem('userInfo');
+       let userInfo = null;
+       if (storedUserInfoString) {
+           try {
+               userInfo = JSON.parse(storedUserInfoString);
+               console.log("User info retrieved on analysis page:", userInfo);
+           } catch(e) { console.error("Could not parse user info:", e); }
+       }
+
+
+      // Simulate Analysis Delay
+      setTimeout(() => {
+        // Generate Simulated Results (Can use userInfo here if needed)
+        const skinTypes = ["Normal", "Dry", "Oily", "Combination"];
+         // Use user's stated skin type as a basis, or random if not available
+         const baseSkinType = userInfo?.skinType || skinTypes[Math.floor(Math.random() * skinTypes.length)];
+        const results = {
+          dateTime: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), // Nicer date format
+           skinType: baseSkinType,
+          age: userInfo?.age || [18, 25, 30, 40][Math.floor(Math.random() * 4)], // Use real age or estimate
+           score: [75, 82, 88, 91][Math.floor(Math.random() * 4)],
+          // Keep generating these for recommendation logic
+          dryness: ["None", "Mild", "Severe"][Math.floor(Math.random() * 3)],
+          radiance: ["Poor", "Good", "Excellent"][Math.floor(Math.random() * 3)],
+          acne: ["Low", "Medium", "High"][Math.floor(Math.random() * 3)]
+        };
+
+        // Display Results
+        analysisDateEl.textContent = results.dateTime;
+        skinTypeEl.textContent = results.skinType;
+        skinAgeEl.textContent = results.age;
+        skinScoreEl.textContent = results.score;
+
+        // Generate and Store Recommendations
+        const recommendedProducts = generateRecommendations(results);
+        sessionStorage.setItem('recommendedRoutine', JSON.stringify(recommendedProducts)); // Save for routine page
+
+        // Show content and hide loading message
+        loadingMessage.style.display = 'none';
+        summaryContent.style.display = 'flex'; // Use flex as defined in CSS now
+
+        // Enable "View Routine" Button
+        viewRoutineBtn.onclick = () => window.location.href = 'routine.html';
+
+        // --- Generate QR Code ---
+        generateRoutineQRCode();
+
+      }, 1500); // Simulate 1.5 seconds
+    };
+
+
+     // --- QR Code Generation Function ---
+     function generateRoutineQRCode() {
+         qrcodeDisplay.innerHTML = ""; // Clear previous content (like loading message)
+         try {
+             // Generate a relative URL to the routine page
+             // Assumes routine.html is in the same directory
+              const routinePageURL = window.location.origin + window.location.pathname.replace('analysis.html', 'routine.html');
+             // Alternatively, use a fixed relative path if needed: const routinePageURL = 'routine.html';
+
+             new QRCode(qrcodeDisplay, {
+                 text: routinePageURL, // Link to the routine page itself
+                 width: 150,          // Adjust size if needed
+                 height: 150,
+                 colorDark: "#000000",
+                 colorLight: "#ffffff",
+                 correctLevel: QRCode.CorrectLevel.H
+             });
+             console.log("QR Code generated linking to:", routinePageURL);
+         } catch (error) {
+            console.error("QR Code Generation Error:", error);
+            qrcodeDisplay.innerHTML = '<p>QR Error</p>'; // Display simple error
+         }
+     }
+
+
+    // --- PDF Download Functions ---
+    async function downloadQRAsPDF() {
+      const qrCanvas = document.querySelector("#qrcode-display canvas"); // Select the generated canvas
+      if (!qrCanvas) {
+          alert("QR Code is not ready yet. Please wait.");
+          return;
+      }
+
+      // Ensure jsPDF is loaded (it should be)
+       if (!window.jspdf) {
+          alert("PDF library not loaded.");
+          return;
+       }
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+          orientation: 'p', // portrait
+           unit: 'px',      // use pixels
+           format: [qrCanvas.width + 80, qrCanvas.height + 120] // size slightly larger than QR
+       });
+
+       const imgData = qrCanvas.toDataURL("image/png");
+       const textX = 40; // starting x position for text
+       const qrX = 40;   // starting x position for qr code
+       const qrY = 60;   // starting y position for qr code
+       const textYOffset = -10; // position text slightly above qr code
+
+       pdf.setFontSize(12);
+       pdf.text("Scan this QR code to view your routine:", textX, qrY + textYOffset);
+       pdf.addImage(imgData, "PNG", qrX, qrY, qrCanvas.width, qrCanvas.height);
+
+       pdf.save("Evalyzer_Routine_QR_Code.pdf"); // Meaningful filename
+     }
+
+     async function downloadReportAsPDF() {
+       // Ensure jsPDF is loaded
+       if (!window.jspdf) {
+           alert("PDF library not loaded.");
+           return;
+       }
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+            orientation: 'p', // portrait
+             unit: 'pt',      // use points (more standard for text)
+             format: 'a4'      // Standard A4 size
+        });
+
+        const margin = 40; // Page margin
+        const imgWidth = 150; // Desired image width in points
+        const lineHeight = 14; // Line height for text
+         let currentY = margin; // Starting Y position
+
+        // --- Add Title ---
+         pdf.setFontSize(20);
+         pdf.text("Skin Analysis Report", pdf.internal.pageSize.getWidth() / 2, currentY, { align: 'center' });
+         currentY += lineHeight * 2; // Move down
+
+         // --- Add Image ---
+         // Get image data AFTER ensuring the image element has loaded its src
+         const imgElement = document.getElementById('displayedImage');
+         if (imgElement.complete && imgElement.naturalHeight !== 0) { // Check if image is loaded
+             try {
+                  // Calculate aspect ratio to maintain proportions
+                  const aspectRatio = imgElement.naturalWidth / imgElement.naturalHeight;
+                  const imgHeight = imgWidth / aspectRatio;
+                  // Center image horizontally
+                  const imgX = (pdf.internal.pageSize.getWidth() - imgWidth) / 2;
+                  pdf.addImage(imgElement, "JPEG", imgX, currentY, imgWidth, imgHeight);
+                  currentY += imgHeight + (lineHeight * 1.5); // Move down below image + spacing
+              } catch(e) {
+                  console.error("Error adding image to PDF:", e);
+                  pdf.setFontSize(10);
+                  pdf.setTextColor(255, 0, 0); // Red text for error
+                  pdf.text("Error loading captured image for PDF.", margin, currentY);
+                  pdf.setTextColor(0, 0, 0); // Reset color
+                  currentY += lineHeight;
+               }
+         } else {
+              // Handle case where image isn't loaded (e.g., display text placeholder)
+              pdf.setFontSize(10);
+              pdf.text("[Image could not be loaded]", margin, currentY);
+              currentY += lineHeight * 3; // Add space even if image failed
+          }
+
+
+        // --- Add Text Data ---
+         pdf.setFontSize(12);
+         const addTextLine = (label, value) => {
+            if (value) { // Only add if value exists
+                pdf.text(`${label}: ${value}`, margin, currentY);
+                currentY += lineHeight; // Move to next line
+            }
+         };
+
+        addTextLine("Analysis Date", analysisDateEl.textContent);
+        addTextLine("Suggested Skin Type", skinTypeEl.textContent);
+        addTextLine("Estimated Skin Age", skinAgeEl.textContent);
+        addTextLine("Overall Score", skinScoreEl.textContent);
+
+        // --- Add Footer or Disclaimer (Optional) ---
+         currentY += lineHeight * 2; // Space before footer
+         pdf.setFontSize(9);
+         pdf.setTextColor(100); // Gray text
+         pdf.text("This report is based on automated analysis and user input. Consult a professional for medical advice.", margin, currentY, {maxWidth: pdf.internal.pageSize.getWidth() - (margin * 2) });
+
+         // --- Save PDF ---
+        pdf.save("Evalyzer_Skin_Analysis_Report.pdf"); // Meaningful filename
+     }
+  </script>
+</body>
+</html>

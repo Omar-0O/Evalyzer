@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Personalized Routine - Evalyzer</title> <!-- More Personal Title -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"> <!-- Added weights 300, 500 -->
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+    <style>
+        /* === Base Styles === */
+          body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #C3D5CC;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100px;
+            padding: 10px 50px;
+            width: 100%;
+            box-sizing: border-box;            
+        }
+
+        .logo img {
+            width: 100px;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-links a {
+            color: black;
+            text-decoration: none;
+            border-radius: 15px;
+            padding: 10px 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .header-links a:hover {
+            background-color: blueviolet;
+            color: white;
+        }
+
+        .header .login-btn img { width: 50px ;height: 50px; border-radius: 50%; }
+
+
+        /* === Routine Container Styling === */
+        .routine-container {
+            background: white;
+            padding: 35px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+            width: 90%;
+            max-width: 850px;
+            border: 1px solid #e8eaed;
+            margin-top: 30px; /* <<<--- تمت الإضافة هنا لزيادة المسافة */
+        }
+
+        .routine-container h2 {
+             text-align: center;
+             color: #202124;
+             margin: 0 0 35px 0;
+             padding-bottom: 15px;
+             border-bottom: 2px solid blueviolet;
+             font-size: 1.7em;
+             font-weight: 500;
+         }
+
+        /* NEW: Loading Spinner Style */
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid blueviolet;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 40px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Routine Step Header with Icons/Count */
+        .routine-step-header {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1a73e8;
+            margin: 35px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dfe1e5;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+         .routine-step-header .step-count {
+            font-size: 0.8em;
+            font-weight: 400;
+            color: #5f6368;
+            background-color: #e8f0fe;
+            padding: 2px 6px;
+            border-radius: 4px;
+         }
+        .routine-step-header:first-of-type { margin-top: 0; }
+
+        /* === Enhanced Product Card Styling === */
+        .product-card {
+            background-color: #ffffff;
+            border: 1px solid #dfe1e5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+         .product-card:hover {
+             box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+             transform: translateY(-2px);
+         }
+        .product-card img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            border-radius: 5px;
+            flex-shrink: 0;
+            background-color: #f8f9fa;
+            padding: 5px;
+            border: 1px solid #f1f3f4;
+        }
+        .product-details { flex-grow: 1; text-align: left; }
+        .product-details h4 { /* Name */
+            margin: 0 0 5px 0;
+            font-size: 1.15em;
+            font-weight: 500; color: #202124;
+            cursor: default;
+            transition: color 0.2s ease;
+        }
+        .product-details h4:hover { /* Name Hover effect */
+             color: blueviolet;
+         }
+         .product-price {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: blueviolet;
+            margin-bottom: 15px;
+        }
+        .product-detail-section { /* Wrapper for each detail */
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 2px solid #e8eaed;
+        }
+        .product-detail-section.why-recommended { /* Emphasis for Why */
+             background-color: #f8f9fa;
+             padding-top: 8px;
+             padding-bottom: 8px;
+             padding-right: 10px;
+             border-left-color: blueviolet;
+             border-radius: 0 4px 4px 0;
+        }
+        .product-details h5 { /* Detail subheadings */
+             font-size: 1em;
+             font-weight: 700;
+             color: #5f6368;
+             margin: 0 0 4px 0;
+         }
+        .product-detail-section.why-recommended h5 { color: #333; } /* Make "Why Recommended" darker */
+        .product-details p { /* Detail paragraphs */
+             font-size: 0.95em;
+             color: #5f6368;
+             margin: 0;
+             line-height: 1.5;
+         }
+        .product-detail-section.why-recommended p { color: #333; font-weight: 400;} /* Darker text for why */
+
+        .product-stock {
+             font-size: 0.9em;
+             color: #d93025;
+             font-weight: 500;
+             margin-top: 12px;
+             display: inline-block;
+             background-color: #fce8e6;
+             padding: 3px 8px;
+             border-radius: 4px;
+         }
+
+        /* === Total Price & Purchase Section === */
+        .checkout-section {
+            margin-top: 40px;
+            padding: 25px 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dfe1e5;
+            text-align: center;
+        }
+         .total-price {
+             font-size: 1.4em;
+             font-weight: 500;
+             color: #202124;
+             margin-bottom: 10px;
+         }
+         .total-price-note {
+             font-size: 0.85em;
+             color: #5f6368;
+             margin-bottom: 20px;
+         }
+         .total-price span { font-weight: 700; color: blueviolet; }
+        .purchase-button {
+             padding: 14px 30px;
+             font-size: 1.1em; font-weight: 500; border: none; border-radius: 8px;
+             cursor: pointer; transition: background-color 0.2s, box-shadow 0.2s;
+             background-color: #27ae60; color: white; text-decoration: none;
+             display: inline-flex;
+             align-items: center; gap: 8px;
+             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+         }
+         .purchase-button::before {
+             content: '🛒';
+             font-size: 1.1em;
+         }
+        .purchase-button:hover { background-color: #229954; box-shadow: 0 2px 4px rgba(0,0,0,0.15);}
+
+        /* === QR Code Section Styling === */
+         .qr-code-section {
+             margin-top: 45px;
+             padding-top: 25px;
+             border-top: 1px solid #dfe1e5;
+             text-align: center;
+         }
+         .qr-code-section h3 { margin-bottom: 10px; color: #333; font-weight: 500; }
+         .qr-context {
+             font-size: 0.9em;
+             color: #5f6368;
+             max-width: 400px;
+             margin: 0 auto 20px auto;
+         }
+        #qrcode { width: 128px; height: 128px; margin: 0 auto 20px auto; padding: 5px; background: white; border-radius: 4px; }
+         #qrSuccessMessage {
+             font-size: 0.9em;
+             color: #27ae60;
+             margin-top: 10px;
+             height: 1em;
+             visibility: hidden;
+             opacity: 0;
+             transition: opacity 0.3s ease;
+         }
+         #qrSuccessMessage.visible { visibility: visible; opacity: 1; }
+         #qrButton {
+             padding: 10px 20px; font-size: 1em; font-weight: 500; border: none;
+             border-radius: 8px; cursor: pointer; transition: 0.3s;
+             background-color: #5f6368; color: white;
+             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+         }
+         #qrButton:hover { background-color: #4a4e52; box-shadow: 0 2px 4px rgba(0,0,0,0.15);}
+         #qrButton:disabled { background-color: #bdc1c6; cursor: not-allowed; color: #777; box-shadow: none; }
+
+         /* Message for no routine (Refined) */
+         .no-routine-message { text-align: center; color: #5f6368; font-style: italic; padding: 30px 20px; background-color: #f8f9fa; border: 1px dashed #dfe1e5; border-radius: 8px; }
+         .no-routine-message a { color: blueviolet; text-decoration: none; font-weight: 500;}
+         .no-routine-message a:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header (Login -> Links -> Logo) -->
+    <div class="header">
+                <div class="logo"> <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/122017/thumbnail_1.png?Ju2vTP1XBYmtSM3qPAKgO_kbbI.IuPyX&itok=lP4vWgEP" alt="Eva Logo"> </div>
+
+        <div class="header-links"> <a href="index.html">About Eva</a> <a href="challange.html">Our Challenge</a> <a href="Analyze-my-Skin.html">Analyze My Skin</a> <a href="sustainability.html">Sustainability</a> </div>
+           <div class="login-container"> <a href="login.html" class="login-btn" title="Login/Profile"> <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="User Profile"> </a> </div>
+
+    </div>
+
+
+    <div class="routine-container">
+        <h2>Your Personalized Eva Routine</h2>
+
+        <div id="recommendationsList">
+            <!-- Loading Spinner Initially -->
+            <div id="loadingSpinner" class="loading-spinner"></div>
+            <div class="no-routine-message" id="initialMessage" style="display: none;">Loading your personalized routine...</div>
+        </div>
+
+        <!-- Checkout Section -->
+        <div class="checkout-section">
+             <div class="total-price">
+                 Total Estimated Price: <span id="totalPriceValue">EGP 0.00</span>
+             </div>
+             <p class="total-price-note">(Prices are estimates and subject to change on the official store)</p>
+             <a href="https://shop.eva-cosmetics.com/" target="_blank" class="purchase-button" title="Visit the Eva Online Shop to purchase">
+                Shop Eva Products
+            </a>
+       </div>
+
+        <!-- QR Code Section -->
+        <div class="qr-code-section">
+            <h3>Save Your Routine List</h3>
+            <p class="qr-context">Scan this code with your phone camera to easily save or share your recommended product list.</p>
+            <button id="qrButton" disabled title="Generate a QR code containing your recommended products">Generate QR Code</button>
+            <div id="qrcode"></div>
+            <div id="qrSuccessMessage">QR Code generated successfully!</div>
+        </div>
+    </div>
+
+    <script>
+        // --- Example Enhanced & Categorized Product Data ---
+        const detailedEvaProductsData = { /* PASTE YOUR DETAILED DATA HERE */
+             1: { id: 1, name: "Eva Moisturizing Cream with Aloe Vera", routineStep: "Moisturizer-PM", purpose: "Soothing Night Hydration", fits: ["Dry", "Normal"], availableOnline: true, image: "https://via.placeholder.com/90/A0D9C1/000000?text=Eva+1", price: 75.00, description: "Provides soothing, long-lasting hydration overnight with natural Aloe Vera extracts.", howToUse: "Apply nightly to clean face and neck after serum.", whyRecommendedBase: "Good PM hydration for normal to dry skin, focused on soothing." },
+             2: { id: 2, name: "Eva Oily Skin Facial Wash", routineStep: "Cleanser", purpose: "Deep Cleansing & Oil Control", fits: ["Oily", "Combination"], availableOnline: true, image: "https://via.placeholder.com/90/FFB6C1/000000?text=Eva+2", price: 60.00, description: "Deeply cleanses pores and removes excess oil without overdrying. Helps control shine.", howToUse: "Lather a small amount with water, massage onto wet face, avoiding eye area. Rinse thoroughly. Use AM and PM.", whyRecommendedBase: "Ideal for managing excess oil production characteristic of oily/combination skin." },
+             3: { id: 3, name: "Eva Vitamin C Radiance Serum", routineStep: "Serum", purpose: "Brightening & Antioxidant", fits: ["All Types"], availableOnline: false, image: "https://via.placeholder.com/90/FFFFE0/000000?text=Eva+3", price: 120.50, description: "Brightens dull skin and improves overall radiance with Vitamin C. Provides antioxidant protection.", howToUse: "Apply 3-4 drops to cleansed face before moisturizer, ideally in the morning. Follow with sunscreen.", whyRecommendedBase: "Boosts skin radiance and provides antioxidant defense." },
+             4: { id: 4, name: "Eva Renewing Night Cream", routineStep: "Moisturizer-PM", purpose: "Anti-Aging & Renewal", fits: ["Normal", "Dry", "Mature"], availableOnline: true, image: "https://via.placeholder.com/90/ADD8E6/000000?text=Eva+4", price: 95.00, description: "Works overnight to repair and regenerate skin. Helps reduce fine lines and improves elasticity.", howToUse: "Apply nightly to clean face and neck after serum.", whyRecommendedBase: "Targets renewal and anti-aging concerns, suitable for PM use." },
+             5: { id: 5, name: "Eva Daily Hydrating Lotion SPF 15", routineStep: "Moisturizer-AM", purpose: "Daytime Hydration & Basic SPF", fits: ["Normal", "Combination"], availableOnline: true, image: "https://via.placeholder.com/90/F5F5DC/000000?text=Eva+5", price: 85.00, description: "A lightweight lotion that hydrates and provides broad-spectrum SPF 15 protection for daily use.", howToUse: "Apply generously to face and neck in the morning after cleansing/serum.", whyRecommendedBase: "Provides essential AM hydration with baseline sun protection for normal/combination skin." },
+             6: { id: 6, name: "Eva Sunscreen Aqua Fluid SPF 50+", routineStep: "Sunscreen", purpose: "High SPF Sun Protection", fits: ["All Types"], availableOnline: true, image: "https://via.placeholder.com/90/FFDAB9/000000?text=Eva+6", price: 150.00, description: "A lightweight, non-greasy fluid offering broad-spectrum UVA/UVB protection with SPF 50+.", howToUse: "Apply generously and evenly as the last step of your morning skincare routine, 15 minutes before sun exposure. Reapply as needed.", whyRecommendedBase: "Essential daily sun protection recommended for all skin types." },
+             7: { id: 7, name: "Eva Gentle Hydrating Cleanser", routineStep: "Cleanser", purpose: "Gentle Cleansing & Hydration", fits: ["Dry", "Normal", "Sensitive"], availableOnline: true, image: "https://via.placeholder.com/90/E0FFFF/000000?text=Eva+7", price: 65.00, description: "Cleanses gently while maintaining skin's natural moisture barrier. Soap-free formula.", howToUse: "Massage onto damp skin, then rinse well. Use AM and PM.", whyRecommendedBase: "Provides gentle cleansing suitable for dry or sensitive skin without stripping moisture." },
+             8: { id: 8, name: "Eva Hyaluronic Acid Hydrating Serum", routineStep: "Serum", purpose: "Intense Hydration", fits: ["All Types", "Dry", "Dehydrated"], availableOnline: true, image: "https://via.placeholder.com/90/B0E0E6/000000?text=Eva+8", price: 110.00, description: "Deeply hydrates the skin by attracting and retaining moisture, leaving it plump and smooth.", howToUse: "Apply a few drops to damp skin after cleansing, AM and/or PM, before moisturizer.", whyRecommendedBase: "Excellent for boosting hydration levels for all skin types, especially if dryness or dehydration is detected." }
+         };
+
+        // --- DOM Elements ---
+        const recommendationsList = document.getElementById('recommendationsList');
+        const totalPriceValueEl = document.getElementById('totalPriceValue');
+        const qrButton = document.getElementById('qrButton');
+        const qrcodeContainer = document.getElementById('qrcode');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const initialMessage = document.getElementById('initialMessage');
+        const qrSuccessMessage = document.getElementById('qrSuccessMessage'); // Get success message element
+        let generatedQRCode = null;
+        let finalRecommendedProducts = [];
+
+        // --- Function to Create a Product Card Element ---
+        function createProductCard(productData, whyRecommendedText) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.setAttribute('role', 'listitem');
+            const img = document.createElement('img');
+            img.src = productData.image || 'https://via.placeholder.com/90/eee/999?text=NoImage';
+            img.alt = `Image of ${productData.name}`;
+            const detailsDiv = document.createElement('div');
+            detailsDiv.className = 'product-details';
+            detailsDiv.innerHTML = `
+                <h4>${productData.name}</h4>
+                <p class="product-price">EGP ${productData.price ? productData.price.toFixed(2) : 'Price unavailable'}</p>
+                ${productData.description ? `<div class="product-detail-section"><h5>Description</h5><p>${productData.description}</p></div>` : ''}
+                ${productData.howToUse ? `<div class="product-detail-section"><h5>How to Use</h5><p>${productData.howToUse}</p></div>` : ''}
+                <div class="product-detail-section why-recommended"><h5>Why Recommended</h5><p>${whyRecommendedText}</p></div>
+                ${productData.availableOnline === false ? `<p class="product-stock">Not available online - check local stores.</p>` : ''}
+            `;
+            card.appendChild(img);
+            card.appendChild(detailsDiv);
+            return card;
+        }
+
+        // --- Function to Display Organized Routine ---
+        function displayOrganizedRoutine(recommendations) {
+            recommendationsList.innerHTML = ''; // Clear spinner and initial message
+            let calculatedTotalPrice = 0;
+            finalRecommendedProducts = [];
+            const emptyRoutineMessage = `<p class="no-routine-message">No suggested routine found. <a href="Analyze-my-Skin.html" title="Go back to skin analysis">Perform analysis?</a></p>`;
+
+            if (!recommendations || recommendations.length === 0) {
+                recommendationsList.innerHTML = emptyRoutineMessage;
+                qrButton.disabled = true; qrButton.title = "No routine to generate QR code for";
+                if (totalPriceValueEl) totalPriceValueEl.textContent = 'EGP 0.00';
+                return;
+            }
+
+            // --- Categorize ---
+            const routine = { AM: [], PM: [], Both: [] };
+            recommendations.forEach(rec => {
+                const detailedData = detailedEvaProductsData[rec.id];
+                if (!detailedData) return;
+                const productInfo = { ...detailedData, whyRecommended: rec.whyRecommended || detailedData.whyRecommendedBase || "Recommended based on analysis." };
+                finalRecommendedProducts.push(productInfo);
+                if (detailedData.routineStep === 'Cleanser') routine.Both.push(productInfo);
+                else if (detailedData.routineStep.includes('-AM') || detailedData.routineStep === 'Sunscreen' || (detailedData.routineStep === 'Serum' && detailedData.howToUse.toLowerCase().includes('morning'))) routine.AM.push(productInfo);
+                else if (detailedData.routineStep.includes('-PM') || (detailedData.routineStep === 'Serum' && !detailedData.howToUse.toLowerCase().includes('morning'))) routine.PM.push(productInfo);
+                if (productInfo.price && !isNaN(parseFloat(productInfo.price))) calculatedTotalPrice += parseFloat(productInfo.price);
+            });
+
+            // --- Sort ---
+            const stepOrder = ['Cleanser', 'Serum', 'Moisturizer-AM', 'Sunscreen', 'Moisturizer-PM'];
+            const sortByStep = (a, b) => stepOrder.indexOf(a.routineStep) - stepOrder.indexOf(b.routineStep);
+            routine.AM.sort(sortByStep); routine.PM.sort(sortByStep);
+
+            // --- Render ---
+            let hasContent = false;
+            const addSection = (title, products, icon) => {
+                if (products.length > 0) {
+                    const header = document.createElement('h3');
+                    header.className = 'routine-step-header';
+                    header.innerHTML = `<span aria-hidden="true">${icon || ''}</span> ${title} <span class="step-count">(${products.length} ${products.length === 1 ? 'product' : 'products'})</span>`;
+                    recommendationsList.appendChild(header);
+                    products.forEach(prod => recommendationsList.appendChild(createProductCard(prod, prod.whyRecommended)));
+                    hasContent = true;
+                }
+            };
+            addSection('Cleanser', routine.Both, '🧼');
+            addSection('Morning Routine', routine.AM, '☀️');
+            addSection('Evening Routine', routine.PM, '🌙');
+            if (!hasContent) { recommendationsList.innerHTML = emptyRoutineMessage; }
+
+            // --- Update Total & Setup QR ---
+            if (totalPriceValueEl) { totalPriceValueEl.textContent = `EGP ${calculatedTotalPrice.toFixed(2)}`; }
+            setupQRCodeGeneration();
+        }
+
+        // --- Functions: setupQRCodeGeneration, generateQRCode (With success message) ---
+        function setupQRCodeGeneration() {
+            if (finalRecommendedProducts.length > 0) {
+                 qrButton.disabled = false; qrButton.textContent = 'Generate QR Code'; qrButton.title = "Generate a QR code containing your recommended products";
+                 if(qrSuccessMessage) qrSuccessMessage.classList.remove('visible'); // Reset success message
+                 qrButton.onclick = () => { generateQRCode(finalRecommendedProducts); };
+             } else {
+                 qrButton.disabled = true; qrButton.textContent = 'Generate QR Code'; qrButton.title = "No routine to generate QR code for";
+                 if(qrSuccessMessage) qrSuccessMessage.classList.remove('visible');
+             }
+        }
+        function generateQRCode(products) {
+            if (!products || products.length === 0) return;
+            let qrText = "Suggested Eva Routine:\n";
+            products.forEach(p => { if(p) { qrText += `- ${p.name} (EGP ${p.price ? p.price.toFixed(2) : 'N/A'})${p.availableOnline === false ? ' [Check Stores]' : ''}\n`; } });
+            qrcodeContainer.innerHTML = '';
+            if(qrSuccessMessage) qrSuccessMessage.classList.remove('visible'); // Hide previous success msg first
+            try {
+                generatedQRCode = new QRCode(qrcodeContainer, { text: qrText, width: 128, height: 128, colorDark : "#000000", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H });
+                qrButton.disabled = true; qrButton.textContent = 'QR Code Generated'; qrButton.title = "QR code has been generated";
+                if(qrSuccessMessage) qrSuccessMessage.classList.add('visible'); // Show success
+             } catch (error) { console.error("Error generating QR Code:", error); qrcodeContainer.innerHTML = '<p style="font-size:0.8em; color:red;">Error.</p>'; }
+        }
+
+        // --- Load recommendations on page load (with spinner logic) ---
+        window.onload = function() {
+             if(loadingSpinner) loadingSpinner.style.display = 'block'; // Show spinner
+             if(initialMessage) initialMessage.style.display = 'none'; // Hide text message
+
+            const storedRoutineString = sessionStorage.getItem('recommendedRoutine');
+
+             setTimeout(() => { // Simulate loading time
+                 if (storedRoutineString) {
+                     try {
+                         const initialRecommendations = JSON.parse(storedRoutineString);
+                         displayOrganizedRoutine(initialRecommendations); // Will hide spinner internally
+                     } catch (error) {
+                         console.error("Error loading/parsing:", error);
+                         if(loadingSpinner) loadingSpinner.style.display = 'none';
+                         recommendationsList.innerHTML = '<p class="no-routine-message">Could not load routine. <a href="Analyze-my-Skin.html">Try again?</a></p>';
+                         qrButton.disabled = true; qrButton.title="Cannot generate QR code";
+                         if(totalPriceValueEl) totalPriceValueEl.textContent = 'EGP --.--';
+                     }
+                 } else {
+                     if(loadingSpinner) loadingSpinner.style.display = 'none';
+                     recommendationsList.innerHTML = `<p class="no-routine-message">No routine found. <a href="Analyze-my-Skin.html">Perform analysis?</a></p>`;
+                     qrButton.disabled = true; qrButton.title="No routine to generate QR code for";
+                     if(totalPriceValueEl) totalPriceValueEl.textContent = 'EGP 0.00';
+                 }
+                // Note: Spinner is hidden implicitly when recommendationsList.innerHTML is set inside displayOrganizedRoutine or the error handlers.
+             }, 750); // Simulate 750ms load time
+         };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Information - Evalyzer</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* === Base Styles (Consistent) === */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #C3D5CC; /* Original Background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 40px;
+            line-height: 1.6; /* Adjusted for forms */
+        }
+
+        /* === Header Styles (Assume EXACTLY same as other pages) === */
+        .header {
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100px;
+            width: 100%;
+            padding: 10px 50px;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+        /* (Paste the rest of your .header, .logo, .header-links, .login-btn CSS here) */
+        /* Example subset */
+        .header .logo img { width: 100px; padding: 10px 50px;}
+        .header .header-links { display: flex; align-items: center; gap: 20px; }
+        .header .header-links a { color: black; text-decoration: none; border-radius: 15px; padding: 10px 15px; font-weight: bold; transition: 0.3s; }
+        .header .header-links a:hover { background-color: blueviolet; color: white; }
+        /* No active link needed here usually */
+
+        .header .login-btn { display: inline-block; width: 50px; height: 50px; border-radius: 50%; overflow: hidden; transition: transform 0.3s ease-in-out; padding: 10px 50px; }
+        .header .login-btn img { width: 100%; height: 100%; border-radius: 50%; }
+        .header .login-btn:hover { transform: scale(1.1); }
+
+
+        /* === Content Container Styling (Consistent) === */
+        .content-container {
+            background: white;
+            padding: 30px 40px; /* Adjust padding */
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 650px; /* Suitable width for forms */
+        }
+
+        .content-container h2 {
+             text-align: center;
+             color: #333;
+             margin-bottom: 25px;
+             padding-bottom: 15px;
+             border-bottom: 2px solid blueviolet; /* Highlight color */
+             font-size: 1.6em; /* Slightly smaller maybe */
+        }
+
+        /* === Form Styling === */
+        .info-form .form-group {
+            margin-bottom: 20px; /* Space between form groups */
+        }
+
+        .info-form label {
+            display: block; /* Label on its own line */
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.0em;
+        }
+
+         .info-form input[type="text"],
+         .info-form input[type="number"],
+         .info-form input[type="email"], /* Added Email Example */
+         .info-form select,
+         .info-form textarea {
+            width: 100%; /* Full width */
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box; /* Include padding in width */
+            font-size: 1em;
+            font-family: inherit; /* Use body font */
+            transition: border-color 0.3s;
+        }
+
+        .info-form input:focus,
+        .info-form select:focus,
+        .info-form textarea:focus {
+             border-color: blueviolet; /* Highlight on focus */
+             outline: none; /* Remove default outline */
+         }
+
+         .info-form textarea {
+             min-height: 80px; /* Decent size for text area */
+             resize: vertical; /* Allow vertical resize */
+         }
+
+        /* Styling for Checkbox/Radio Groups */
+        .checkbox-group label,
+        .radio-group label {
+            display: inline-block; /* Keep label next to checkbox/radio */
+            margin-right: 15px; /* Space between options */
+            font-weight: normal; /* Normal weight for options */
+             margin-bottom: 5px; /* Space below if wraps */
+             cursor: pointer;
+        }
+         .checkbox-group input[type="checkbox"],
+         .radio-group input[type="radio"] {
+             margin-right: 5px;
+             cursor: pointer;
+              position: relative; top: 2px; /* Align better with text */
+         }
+
+
+         /* Submit Button Styling */
+        .info-form .submit-btn {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            background-color: blueviolet; /* Primary action color */
+            color: white;
+            display: block; /* Center button */
+            width: 50%;
+            min-width: 150px;
+            margin: 25px auto 0 auto; /* Center with margin */
+        }
+         .info-form .submit-btn:hover {
+            background-color: #7a4bb7; /* Darker hover */
+         }
+         #formMessage { /* Style for success/error messages */
+            text-align: center;
+             margin-top: 15px;
+             font-weight: bold;
+             display: none; /* Hidden initially */
+         }
+         #formMessage.success { color: green; }
+         #formMessage.error { color: red; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header (Paste your EXACT header HTML code here) -->
+    <div class="header">
+        <div class="logo">
+            <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/122017/thumbnail_1.png?Ju2vTP1XBYmtSM3qPAKgO_kbbI.IuPyX&itok=lP4vWgEP" alt="Logo">
+        </div>
+
+        <div class="header-links">
+            <a href="About.html">About Eva</a>
+            <a href="Enalyze-my-skin.html">Analyze My Skin</a>
+            <a href="challange.html">Our Challange</a>
+            <a href="Sustainability.html">Sustainability</a>
+        </div>
+
+        <div class="login-container">
+            <a href="login.html" class="login-btn">
+                <img src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg" alt="User Profile">
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Main Content Area -->
+    <div class="content-container">
+        <h2>Tell Us About Yourself</h2>
+        <p style="text-align:center; margin-bottom:20px; color:#555;">This information helps us provide more personalized recommendations.</p>
+
+        <form id="userInfoForm" class="info-form">
+
+            <!-- Age Group -->
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" min="10" max="99" placeholder="e.g., 25" required>
+            </div>
+
+            <!-- Gender Group -->
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                    <option value="">Prefer not to say</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                </select>
+            </div>
+
+            <!-- Skin Type Group -->
+            <div class="form-group">
+                <label for="skinType">How would you describe your skin type?</label>
+                <select id="skinType" name="skinType" required>
+                    <option value="">-- Select Skin Type --</option>
+                    <option value="normal">Normal</option>
+                    <option value="dry">Dry</option>
+                    <option value="oily">Oily</option>
+                    <option value="combination">Combination</option>
+                    <option value="sensitive">Sensitive</option>
+                </select>
+            </div>
+
+             <!-- Primary Skin Concerns Group -->
+             <div class="form-group checkbox-group">
+                <label>What are your primary skin concerns? (Select all that apply)</label>
+                <label><input type="checkbox" name="concerns" value="acne"> Acne / Blemishes</label>
+                <label><input type="checkbox" name="concerns" value="dryness"> Dryness / Dehydration</label>
+                <label><input type="checkbox" name="concerns" value="oiliness"> Oiliness / Shine</label>
+                <label><input type="checkbox" name="concerns" value="pores"> Enlarged Pores</label>
+                <label><input type="checkbox" name="concerns" value="wrinkles"> Fine Lines / Wrinkles</label>
+                <label><input type="checkbox" name="concerns" value="darkspots"> Dark Spots / Hyperpigmentation</label>
+                <label><input type="checkbox" name="concerns" value="redness"> Redness / Rosacea</label>
+                <label><input type="checkbox" name="concerns" value="dullness"> Dullness / Lack of Radiance</label>
+                <label><input type="checkbox" name="concerns" value="sensitivity"> General Sensitivity</label>
+                 <!-- Add hair concerns if needed -->
+            </div>
+
+
+             <!-- Allergies/Sensitivities Group -->
+            <div class="form-group">
+                <label for="allergies">Known Allergies or Ingredient Sensitivities?</label>
+                <textarea id="allergies" name="allergies" rows="3" placeholder="List any ingredients you know you react to (e.g., fragrance, certain alcohols, specific extracts)"></textarea>
+            </div>
+
+
+             <!-- Desired Goals Group -->
+            <div class="form-group checkbox-group">
+                <label>What are your main goals? (Select all that apply)</label>
+                 <label><input type="checkbox" name="goals" value="clear_skin"> Clearer Skin / Reduce Acne</label>
+                 <label><input type="checkbox" name="goals" value="hydrate"> More Hydration / Reduce Dryness</label>
+                 <label><input type="checkbox" name="goals" value="control_oil"> Control Oil / Mattify</label>
+                 <label><input type="checkbox" name="goals" value="anti_aging"> Anti-Aging / Reduce Wrinkles</label>
+                 <label><input type="checkbox" name="goals" value="brighten"> Brighter Skin / Improve Radiance</label>
+                 <label><input type="checkbox" name="goals" value="even_tone"> Even Skin Tone / Reduce Dark Spots</label>
+                 <label><input type="checkbox" name="goals" value="calm_skin"> Calm Redness / Soothe Skin</label>
+                <!-- Add hair goals if needed -->
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Save & Continue</button>
+
+            <!-- Message Area -->
+             <div id="formMessage"></div>
+
+        </form>
+
+    </div>
+
+    <!-- (Add Footer Here if you have one) -->
+
+    <script>
+        const form = document.getElementById('userInfoForm');
+        const formMessage = document.getElementById('formMessage');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default HTML form submission
+
+            // --- Collect Data ---
+            const userData = {};
+
+             // Simple values
+             userData.age = document.getElementById('age').value;
+             userData.gender = document.getElementById('gender').value;
+             userData.skinType = document.getElementById('skinType').value;
+             userData.allergies = document.getElementById('allergies').value.trim();
+
+            // Checkbox values (Concerns)
+            userData.concerns = [];
+            const concernCheckboxes = document.querySelectorAll('input[name="concerns"]:checked');
+            concernCheckboxes.forEach(checkbox => {
+                 userData.concerns.push(checkbox.value);
+             });
+
+             // Checkbox values (Goals)
+             userData.goals = [];
+             const goalCheckboxes = document.querySelectorAll('input[name="goals"]:checked');
+             goalCheckboxes.forEach(checkbox => {
+                 userData.goals.push(checkbox.value);
+              });
+
+             console.log("Collected User Data:", userData); // For debugging
+
+            // --- Store Data in Session Storage ---
+             try {
+                // Convert the object to a JSON string for storage
+                sessionStorage.setItem('userInfo', JSON.stringify(userData));
+
+                 // --- Provide Feedback & Redirect ---
+                formMessage.textContent = "Information saved successfully! Redirecting...";
+                 formMessage.className = 'success'; // Apply success style
+                 formMessage.style.display = 'block';
+
+                 // Redirect to the next step (e.g., camera page) after a short delay
+                 setTimeout(() => {
+                     // CHANGE 'Analyze-my-Skin.html' to the correct next page if needed
+                     window.location.href = 'Analyze-my-Skin.html';
+                 }, 1500); // 1.5 second delay
+
+             } catch (error) {
+                console.error("Error saving data to sessionStorage:", error);
+                 formMessage.textContent = "Failed to save information. Please try again.";
+                 formMessage.className = 'error'; // Apply error style
+                 formMessage.style.display = 'block';
+             }
+         });
+     </script>
+
+</body>
+</html>
