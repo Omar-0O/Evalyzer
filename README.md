@@ -1,195 +1,290 @@
 <div align="center">
 
-# ✨ Project Face — مستشارة العناية بالبشرة بالذكاء الاصطناعي ✨
-### *AI-Powered Real-Time Interactive Skincare Consultant Powered by Gemini Live*
+# ✨ Evalyzer
+### *Next-Generation Real-Time AI Skincare Consultant & Facial Diagnostic Platform*
 
 [![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.2-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Gemini Live API](https://img.shields.io/badge/Google_Gemini-Live_Multimodal_API-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 <br/>
 
 <p align="center">
-  <b>«چوليا» خبيرة ومستشارة العناية بالبشرة التفاعلية التي تتحدث معك صوتياً وصورياً بالعامية المصرية وتوجهك لروتين عناية مخصص لبشرتك بدقة فائقة!</b>
+  <b>Evalyzer</b> bridges cutting-edge computer vision with low-latency bidirectional conversational AI. Powered by <b>Google's Gemini Live Multimodal API</b>, Evalyzer features <b>"Julia"</b> — an intelligent, empathetic virtual skincare expert that talks with users in natural conversational Arabic, analyzes facial features via live camera input, and autonomously guides users through a tailored skincare journey.
 </p>
 
-[English Overview](#-english-overview) • [المميزات الرئيسية](#-المميزات-الرئيسية) • [طريقة التشغيل](#-طريقة-التشغيل-والتثبيت) • [معمارية المشروع](#-معمارية-المشروع-project-architecture) • [معاينة التصميم](#-معاينة-الشاشات)
+<p align="center">
+  <a href="#-key-features">Key Features</a> •
+  <a href="#-system-architecture">Architecture</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-getting-started">Getting Started</a> •
+  <a href="#-project-structure">Project Structure</a> •
+  <a href="#-ui-showcase">UI Showcase</a> •
+  <a href="#-license">License</a>
+</p>
 
 ---
 
 </div>
 
-## 📖 نبذة عن المشروع (About the Project)
+## 📌 Executive Summary
 
-**Project Face** هو تطبيق ويب تفاعلي ذكي فائق السرعة يعمل كمستشار شخصي للعناية بالبشرة عبر الذكاء الاصطناعي التوليدي الحقيقي (Real-Time Multimodal AI). يستند المشروع إلى نموذج **Gemini Live Multimodal API** (`gemini-2.5-flash-native-audio-preview`) الذي يوفر اتصال WebSocket مباشر ثنائي الاتجاه لنقل الصوت وتحليل الصور والتنقل الذكي الفوري داخل واجهة التطبيق.
+Modern skincare consultation often suffers from rigid static forms, disconnected surveys, and lack of visual context. **Evalyzer** transforms digital dermatology by combining **real-time bidirectional audio streaming** and **computer vision diagnostic intelligence** into a single cohesive web application.
 
-تتجسد مستشارة العناية في شخصية افتراضية اسمها **«چوليا»**، تتحدث باللهجة المصرية العامية بطريقة طبيعية ودودة، وتتعرف على جنس المستخدم (ذكر / أنثى) لتكييف الحوار والقواعد اللغوية، وتقوم بفحص ملامح الوجه وحالة البشرة عبر الكاميرا لتقديم منتجات وروتين يومي مخصص.
-
----
-
-## 🌟 المميزات الرئيسية (Key Features)
-
-- 🎙️ **محادثة صوتية تفاعلية حية (Real-time Bidirectional Audio):**
-  - تدفق صوتي مباشر منخفض الكمون (Low-latency Audio Streaming) بمعدل 16kHz PCM مدخل و24kHz مخرج.
-  - خوارزمية ذكية لاكتشاف النشاط الصوتي (Voice Activity Detection - VAD) والتوقف التلقائي عند مقاطعة المستخدم للحديث.
-- 👁️ **تحليل بصري متقدم للبشرة (Multimodal Vision Skin Diagnosis):**
-  - التقاط صورة فورية للوجه عبر كاميرا الويب وإرسالها مشفرة بصيغة Base64 إلى نموذج Gemini Live لفحص المسام، الحبوب، الهالات السوداء، التجاعيد، ونوع البشرة.
-- ⚡ **تحكم تلقائي في واجهة المستخدم عبر Function Calling:**
-  - النموذج الذكي يستدعي دالة `go_to_next_step` بعد الاستماع لرد المستخدم صوتياً لينتقل التطبيق ذاتياً للسؤال التالي دون الحاجة للضغط على أي أزرار.
-- 🗣️ **دعم كامل للهجة المصرية والتخصيص بحسب الجنس (Gender Adaptation):**
-  - تخصيص الخطاب تلقائياً بصيغة المذكر أو المؤنث بناءً على اختيار المستخدم لضمان تجربة حوار طبيعية وممتعة.
-- 🧴 **توصيات مخصصة بالمنتجات والروتين اليومي:**
-  - اقتراح مستحضرات عناية معتمدة مع تفاصيل الاستخدام الصباحي والمسائي وتوقعات التحسن الزمني.
-- 📱 **تكامل ومتابعة سريعة عبر الـ QR Code:**
-  - إمكانية مسح كود QR أو إدخال رقم الهاتف لمتابعة الروتين عبر تطبيق الهاتف.
-- 🎨 **واجهة مستخدم عصرية وأنيقة:**
-  - تصميم متجاوب، أنيميشن سلس باستخدام Framer Motion، ومؤثرات صوتية ومرئية لأفاتار ذكي متوهج (`GradientAvatar`) يتفاعل حركياً أثناء الاستماع والتحدث.
+Users don't just fill out a questionnaire; they have an organic, verbal consultation with an AI consultant (**Julia**). The AI watches, listens, replies conversationally, and **autonomously advances the UI** as the user answers questions verbally using Gemini Function Calling.
 
 ---
 
-## 🛠️ التقنيات المستخدمة (Tech Stack)
+## 🌟 Key Features
 
-| التقنية | الاستخدام |
-| :--- | :--- |
-| **React 19** & **TypeScript** | بناء الواجهة الأمامية والتحكم بحالة التطبيق بنمط قوي وموثوق |
-| **Vite 7** | بيئة بناء وتطوير سريعة مع تحديث فوري (HMR) |
-| **Tailwind CSS v4** & **Radix UI** | تصميم عصري متجاوب ومكونات واجهة مستخدم متقدمة |
-| **Framer Motion** | حركات تفاعلية وانتقالات سلسة بين مراحل الاختبار |
-| **@google/genai** | الربط مع واجهة Gemini Live API التفاعلية للوسائط المتعددة |
-| **Web Audio API** | معالجة دفق الصوت الحقيقي والـ Buffers و VAD |
-| **Wouter** | توجيه مسارات خفيف وسريع داخل التطبيق |
+### 🎙️ 1. Full-Duplex Low-Latency Audio Streaming
+- **Native WebSocket Pipeline:** Direct bidirectional streaming to Gemini Live (`gemini-2.5-flash-native-audio-preview-12-2025`).
+- **Real-Time PCM Processing:** Captures 16kHz microphone audio via the Web Audio API and streams it as raw PCM chunks.
+- **High-Fidelity Audio Playback:** Decodes incoming 24kHz audio chunks and sequences them smoothly in an asynchronous playback queue.
+- **Voice Activity Detection (VAD) & Instant Interruption:** Built-in RMS acoustic thresholding detects when the user begins speaking, immediately cutting off the AI's audio response for a natural conversational flow.
+
+### 👁️ 2. Computer Vision Facial Diagnostics
+- **Live In-Browser Camera Capture:** Accesses camera stream securely with frame preview and interactive capture triggers.
+- **Multimodal Image Payload:** Encodes facial snapshots into JPEG/Base64 and feeds them directly into the ongoing Gemini Live session.
+- **Clinical Skin Assessment:** Analyzes skin type (oily, dry, combination, normal), pores, acne conditions, dark circles, texture, and fine lines to guide subsequent consultation questions.
+
+### ⚡ 3. Autonomous UI Navigation via Function Calling
+- **Agentic Workflow:** The AI model is armed with declared tool functions (`go_to_next_step`).
+- **Zero-Touch Progression:** After Julia asks a question and listens to the user's spoken answer, she acknowledges it and invokes `go_to_next_step` to programmatically slide the user interface to the next step without physical interaction.
+
+### 🗣️ 4. Adaptive Conversational Tone & Dialect
+- **Natural Egyptian Arabic:** Styled with warm, empathetic, and professional conversational phrasing.
+- **Gender-Aware Grammar Adaptation:** Dynamically modifies system prompts based on whether the user identifies as male or female, guaranteeing grammatically accurate gendered verbs and adjectives.
+
+### 🧴 5. Personalized Regimen & Product Recommendation
+- **Tailored Skincare Regimen:** Matches diagnosed skin profiles to clinically formulated routines (e.g. Cleansers, Serums, Hydrators, Sunscreens).
+- **Morning & Night Timeline:** Breaks down step-by-step usage rules (cleanse, application dosage, massage technique, moisturize).
+- **Clinical Milestones Table:** Clear expectations showing timeline of visible results across Weeks 1 to 8.
+
+### 📱 6. Omnichannel Mobile Handoff
+- Quick phone number submission and dynamic QR code generation allowing users to take their customized regimen on-the-go on their mobile devices.
 
 ---
 
-## 🚀 طريقة التشغيل والتثبيت (Getting Started)
+## 🏗️ System Architecture
 
-### المتطلبات الأساسية (Prerequisites)
-- تثبيت **Node.js** (الإصدار 18 أو أحدث)
-- تثبيت مدير الحزم **npm** أو **pnpm** أو **yarn**
-- مفتاح **Gemini API Key** صالح ويدعم Gemini Live API (Google AI Studio)
+```mermaid
+flowchart TD
+    subgraph Client ["Client Browser (React 19 + TypeScript)"]
+        UI["UI Wizard State Machine"]
+        AVATAR["Glowing Reactive Avatar (Framer Motion)"]
+        CAM["Webcam Capture & Video Processing"]
+        AUDIO_IN["Microphone (16kHz PCM Stream + VAD)"]
+        AUDIO_OUT["AudioContext Playback Queue (24kHz)"]
+        HOOK["useLiveApi Hook"]
+        SERVICE["GeminiLiveService Singleton"]
+    end
 
-### 1. استنساخ المستودع (Clone the Repository)
-```bash
-git clone https://github.com/Omar-0O/project-face.git
-cd project-face
-```
+    subgraph Gemini ["Google Gemini Live Infrastructure"]
+        LIVE_WS["Gemini Live WebSocket Server"]
+        MODEL["gemini-2.5-flash-native-audio-preview"]
+        TOOLS["Function Calling Engine (go_to_next_step)"]
+        VISION["Multimodal Vision Analyzer"]
+    end
 
-### 2. تثبيت الحزم والمكتبات (Install Dependencies)
-```bash
-npm install
-```
-
-### 3. إعداد المتغيرات البيئية (Environment Variables)
-قم بنسخ ملف `.env.example` إلى ملف `.env`:
-```bash
-cp .env.example .env
-```
-افتح ملف `.env` وضع مفتاح الـ API الخاص بك:
-```env
-VITE_GEMINI_API_KEY=AIzaSy...your_gemini_api_key_here
-```
-
-### 4. تشغيل خادم التطوير (Run Development Server)
-```bash
-npm run dev
-```
-افتح المتصفح على الرابط الافتراضي: `http://localhost:5173` واسمح للتطبيق بالوصول إلى الميكروفون والكاميرا.
-
-### 5. بناء المشروع للإنتاج (Build for Production)
-```bash
-npm run build
+    CAM -- Base64 Frame --> SERVICE
+    AUDIO_IN -- Real-time PCM Chunks --> SERVICE
+    SERVICE <-->|WebSocket Bidirectional| LIVE_WS
+    LIVE_WS <--> MODEL
+    MODEL --> VISION
+    MODEL --> TOOLS
+    TOOLS -- Tool Call (go_to_next_step) --> SERVICE
+    SERVICE -- Step Update Event --> UI
+    LIVE_WS -- 24kHz Audio Parts --> SERVICE
+    SERVICE --> AUDIO_OUT
+    AUDIO_OUT -. Sound State .-> AVATAR
 ```
 
 ---
 
-## 📂 معمارية المشروع (Project Architecture)
+## 🛠️ Tech Stack
+
+| Domain | Technology | Description |
+| :--- | :--- | :--- |
+| **Frontend Core** | [React 19](https://react.dev/) & [TypeScript](https://www.typescriptlang.org/) | Next-gen component architecture and strict type safety |
+| **Build & Tooling** | [Vite 7](https://vitejs.dev/) | Sub-second HMR and optimized production bundling |
+| **Styling & System** | [Tailwind CSS v4](https://tailwindcss.com/) | Modern utility-first CSS engine with customized CSS variables |
+| **Primitives & UI** | [Radix UI](https://www.radix-ui.com/) & [Lucide Icons](https://lucide.dev/) | Accessible headless primitives and modern icon set |
+| **Animations** | [Framer Motion](https://www.framer.com/motion/) | Fluid physics-based state transitions and audio-reactive visuals |
+| **AI Integration** | [@google/genai](https://www.npmjs.com/package/@google/genai) | Official Google Gen AI SDK for Gemini Live WebSockets |
+| **Digital Signal** | Web Audio API | Custom `ScriptProcessorNode` audio pipeline, Float32 to Int16 PCM converter |
+| **Routing** | [Wouter](https://github.com/molefrog/wouter) | Ultra-lightweight client-side routing |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **Node.js** >= `18.0.0`
+- **npm**, **pnpm**, or **yarn**
+- Modern Chromium-based browser or Firefox with webcam & microphone permissions enabled
+- A valid **Google Gemini API Key** with access to Gemini Live models ([Google AI Studio](https://aistudio.google.com/))
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Omar-0O/Evalyzer.git
+   cd Evalyzer
+   ```
+
+2. **Install project dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables:**
+   Copy the `.env.example` template:
+   ```bash
+   cp .env.example .env
+   ```
+   Open `.env` and supply your Gemini API key:
+   ```env
+   VITE_GEMINI_API_KEY=AIzaSy...your_gemini_api_key_here
+   ```
+
+4. **Launch the development server:**
+   ```bash
+   npm run dev
+   ```
+   Navigate to `http://localhost:5173` and allow microphone and camera access.
+
+5. **Build for Production:**
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 📂 Project Structure
 
 ```
-project-face/
-├── Design/                  # لقطات شاشات وتصاميم الواجهة الأصلية
-├── public/                  # الصور الثابتة، الأيقونات، وصور المنتجات
-│   ├── products/            # صور منتجات العناية بالبشرة
-│   └── custom-qr.png        # باركود المتابعة
+Evalyzer/
+├── Design/                    # Original UI/UX design mockups and screens
+├── public/                    # Static assets, product imagery, QR codes
+│   ├── products/              # Skincare product visuals
+│   ├── ai-sphere.png          # Visual branding sphere
+│   └── custom-qr.png          # Mobile handoff QR asset
 ├── src/
-│   ├── components/          # المكونات المشتركة ومكونات العناية
-│   │   ├── skincare/        # مكونات الأفاتار المتوهج، كروت المنتجات، جدول الروتين
-│   │   └── ui/              # مكونات Radix UI و Tailwind (الأزرار، التنبيهات، القوائم)
+│   ├── components/            # Reusable React components
+│   │   ├── skincare/          # Domain components:
+│   │   │   ├── GradientAvatar.tsx   # Audio-reactive glowing avatar
+│   │   │   ├── ProductCard.tsx      # Curated recommendation cards
+│   │   │   ├── RoutineTable.tsx     # Structured clinical milestone table
+│   │   │   ├── BottomNav.tsx        # Consultation progress indicator
+│   │   │   └── TypewriterText.tsx   # Animated Arabic text typewriter
+│   │   └── ui/                # Headless UI primitives (Radix UI wrappers)
 │   ├── hooks/
-│   │   ├── use-live-api.ts  # React Hook لإدارة دورة حياة الاتصال الصوتي والبصري بـ Gemini
-│   │   └── use-toast.ts     # هوك إدارة الرسائل المنبثقة
+│   │   ├── use-live-api.ts    # React custom hook binding Gemini Live singleton
+│   │   └── use-toast.ts       # Toast notifications hook
 │   ├── lib/
-│   │   ├── gemini-live.ts   # محرك خدمة Gemini Live (WebSockets, AudioContext, VAD, Tools)
-│   │   ├── audio-player.ts  # مشغل تدفق الصوت PCM 24kHz
-│   │   └── utils.ts         # أدوات مساعدة وتنسيق الكلاسات
+│   │   ├── gemini-live.ts     # Core service managing WebSockets, VAD, and tools
+│   │   ├── audio-player.ts    # High-performance 24kHz PCM audio queue player
+│   │   ├── audio-recorder.ts  # Audio streaming input helper
+│   │   └── utils.ts           # Classnames merger and Tailwind utility helper
 │   ├── pages/
-│   │   ├── WelcomePage.tsx     # شاشة الترحيب والتعريف بالخدمة
-│   │   ├── GenderSelection.tsx # شاشة تحديد الجنس لضبط سياق الحديث
-│   │   ├── SkincareWizard.tsx  # الشاشة الرئيسية الشاملة (الكاميرا، الأسئلة، المنتجات، الروتين)
-│   │   └── Home.tsx            # منسق المراحل الرئيسي
-│   ├── App.tsx              # نقطة دخول المكونات والتوجيه
-│   └── main.tsx             # تهيئة تطبيق React
-├── .env.example             # نموذج المتغيرات البيئية
-├── package.json             # الحزم والتبعيات
-└── vite.config.ts           # إعدادات Vite ومسارات الـ alias
+│   │   ├── WelcomePage.tsx       # Onboarding stage with Julia's introduction
+│   │   ├── GenderSelection.tsx   # Grammatical gender customization screen
+│   │   ├── SkincareWizard.tsx    # Core engine: Camera scan, Q&A, Regimen & QR
+│   │   ├── Home.tsx              # Stage coordinator
+│   │   └── not-found.tsx         # 404 Fallback page
+│   ├── App.tsx                # App root provider wrapper & routing
+│   ├── index.css              # Design tokens, gradients, and custom scrollbars
+│   └── main.tsx               # DOM entry point
+├── .env.example               # Environment variables template
+├── package.json               # Dependencies and build scripts
+└── vite.config.ts             # Vite configuration with path aliases
 ```
 
 ---
 
-## 🖼️ معاينة الشاشات (Design & UI Showcase)
+## ⚙️ Gemini Live API Details
+
+Evalyzer connects directly to Google's native real-time multimodal preview:
+- **Model:** `gemini-2.5-flash-native-audio-preview-12-2025`
+- **Response Modality:** `AUDIO`
+- **Voice Preset:** `Kore`
+- **Tool Declarations:**
+  ```typescript
+  const goToNextStepDeclaration = {
+      name: 'go_to_next_step',
+      description: 'Advance to the next question/step in the skincare wizard. Trigger immediately after responding to the user speech.',
+      parameters: { type: Type.OBJECT, properties: {} }
+  };
+  ```
+
+---
+
+## 🖼️ UI Showcase
 
 <div align="center">
   <table>
     <tr>
-      <td align="center"><b>1. ترحيب چوليا (Welcome Stage)</b></td>
-      <td align="center"><b>2. اختيار الجنس (Gender Selection)</b></td>
+      <th align="center">Step 1: Welcome & Introduction</th>
+      <th align="center">Step 2: Gender Adaptation</th>
     </tr>
     <tr>
-      <td><img src="Design/Desktop - 1.png" width="400" alt="Welcome Page"/></td>
-      <td><img src="Design/Desktop - 2.png" width="400" alt="Gender Selection"/></td>
+      <td><img src="Design/Desktop - 1.png" width="450" alt="Welcome Screen"/></td>
+      <td><img src="Design/Desktop - 2.png" width="450" alt="Gender Selection Screen"/></td>
     </tr>
     <tr>
-      <td align="center"><b>3. فحص الكاميرا (Camera Skin Scan)</b></td>
-      <td align="center"><b>4. الأسئلة الصوتية التفاعلية (Voice Q&A)</b></td>
+      <th align="center">Step 3: Live Camera Face Scan</th>
+      <th align="center">Step 4: Interactive Spoken Q&A</th>
     </tr>
     <tr>
-      <td><img src="Design/Desktop - 3.png" width="400" alt="Camera Capture"/></td>
-      <td><img src="Design/Desktop - 4.png" width="400" alt="Q&A Wizard"/></td>
+      <td><img src="Design/Desktop - 3.png" width="450" alt="Camera Capture"/></td>
+      <td><img src="Design/Desktop - 4.png" width="450" alt="Q&A Flow"/></td>
     </tr>
     <tr>
-      <td align="center"><b>5. المنتجات المقترحة (Products)</b></td>
-      <td align="center"><b>6. الروتين والتعليمات (Skin Routine)</b></td>
+      <th align="center">Step 5: Product Recommendations</th>
+      <th align="center">Step 6: Clinical Routine & Expectations</th>
     </tr>
     <tr>
-      <td><img src="Design/Desktop - 5.png" width="400" alt="Recommended Products"/></td>
-      <td><img src="Design/Desktop - 6.png" width="400" alt="Routine Instructions"/></td>
+      <td><img src="Design/Desktop - 5.png" width="450" alt="Recommended Products"/></td>
+      <td><img src="Design/Desktop - 6.png" width="450" alt="Routine Instructions"/></td>
+    </tr>
+    <tr>
+      <th align="center">Step 7: Regimen Confirmation</th>
+      <th align="center">Step 8: Mobile Sync & QR Code</th>
+    </tr>
+    <tr>
+      <td><img src="Design/Desktop - 7.png" width="450" alt="Confirmation Screen"/></td>
+      <td><img src="Design/Desktop - 8.png" width="450" alt="QR Code Screen"/></td>
     </tr>
   </table>
 </div>
 
 ---
 
-## 🌐 English Overview
+## 🤝 Contributing
 
-**Project Face** is a cutting-edge real-time AI skincare consultant web application powered by **Google's Gemini Live Multimodal API**. It introduces **"Julia"**, an interactive AI consultant who communicates fluently in Egyptian Arabic, offering real-time conversational audio advice, visual face analysis via web camera, and automated wizard progression via Gemini function calling.
+Contributions, issues, and feature requests are welcome! Feel free to check out the [issues page](https://github.com/Omar-0O/Evalyzer/issues).
 
-### Key Highlights:
-- **Low-Latency Bidirectional Audio Streaming:** Seamless voice conversation over WebSockets.
-- **Multimodal Visual Analysis:** Analyzes facial pores, acne, texture, and fine lines in real time.
-- **Dynamic Gender Awareness:** Adapts dialogue grammar and recommendations for both men and women.
-- **Automated Workflow with Function Calling:** Automatically transitions through consultation questions as you speak.
-- **Tailored Skincare Regimen:** Delivers personalized product recommendations and day/night care schedules.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'feat: add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
 ## 👨‍💻 Author & Maintainer
 
-- **Omar** ([@Omar-0O](https://github.com/Omar-0O))
+**Omar**
+- GitHub: [@Omar-0O](https://github.com/Omar-0O)
+- Email: [omar.nail774@gmail.com](mailto:omar.nail774@gmail.com)
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
